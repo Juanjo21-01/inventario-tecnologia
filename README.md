@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📈 Inventario sobre Tecnología 🖥️
 
-## Getting Started
+Sistema de control de inventario para la empresa de **Tecnología en un solo lugar**, que se dedica a la venta y distribución de productos tecnológicos.
 
-First, run the development server:
+## 📚 Proyecto Final Análisis de Sistemas II
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Este proyecto fue realizado para la materia de Análisis de Sistemas II, en el cual se implementaron los conocimientos adquiridos durante el semestre.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✒️Integrantes
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- _Anette Guadalupe Castellanos Rabanales_ - Diseñadora UI/UX
+- _Anderson Asdriel Ruíz Valdéz_ - Programador Back-end
+- _José Daniel Santizo Ordoñez_ - Analista
+- _Juan José Hernández López_ - Programador Front-end
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🛠️ Desarrollado con
 
-## Learn More
+- [Next.js](https://nextjs.org/) - Framework de React
+- [React](https://es.reactjs.org/) - Librería de JavaScript
+- [Node.js](https://nodejs.org/es/) - Entorno de ejecución para JavaScript
+- [Bootstrap](https://getbootstrap.com/) - Framework CSS
+- [Django](https://www.djangoproject.com/) - Framework de Python
+- [MySQL](https://www.mysql.com/) - Sistema de gestión de bases de datos relacionales
 
-To learn more about Next.js, take a look at the following resources:
+## 📄 Licencia
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE.md](LICENSE.md) para detalles
