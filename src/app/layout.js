@@ -1,4 +1,6 @@
+import Navegacion from '@/components/Navegacion';
 import './globals.css';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'Inventario',
@@ -7,8 +9,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="es">
+      <body>
+        <Navegacion />
+
+        {children}
+
+        <Footer />
+      </body>
     </html>
   );
 }
