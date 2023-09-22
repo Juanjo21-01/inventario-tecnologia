@@ -1,3 +1,5 @@
+import TablaContenido from './TablaContenido';
+
 const Tabla = ({ thead, tbody }) => {
   return (
     <table>
@@ -10,11 +12,7 @@ const Tabla = ({ thead, tbody }) => {
       </thead>
       <tbody>
         {tbody.map((item, index) => (
-          <tr key={index}>
-            {Object.keys(item).map((llave, indice) => (
-              <td key={indice}>{item[llave]}</td>
-            ))}
-          </tr>
+          <TablaContenido key={index} item={item} />
         ))}
       </tbody>
     </table>
