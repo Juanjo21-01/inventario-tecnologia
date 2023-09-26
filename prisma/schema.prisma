@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// TABLAS DE LA BASE DE DATOS
+
+// 1. Proveedores  
+model Proveedor {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @db.VarChar(255)
+  nit       String     @db.VarChar(255)
+  direccion String     @db.VarChar(255)
+  telefono  String     @db.VarChar(255)
+  email     String?    @db.VarChar(255)
+  Producto  Producto[]
+  Compra    Compra[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([nit])
+  @@map("proveedores")
+}
+
+// 2. Tipos de Productos (Categorias)
+model CategoriaProductos {
+  id          Int        @id @default(autoincrement())
+  nombre      String     @db.VarChar(255)
+  descripcion String     @db.VarChar(255)
+  Producto    Producto[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([nombre])
+  @@map("categoria_productos")
+}
+
+// 3. Estados
+model Estado {
+  id          Int        @id @default(autoincrement())
+  nombre      String     @db.VarChar(255)
+  descripcion String     @db.VarChar(255)
+  Producto    Producto[]
+  Venta       Venta[]
+  Compra      Compra[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([nombre])
+  @@map("status")
+}
+
+// 4. Producto
+model Producto {
+  id            Int                @id @default(autoincrement())
+  nombre        String             @db.VarChar(255)
+  descripcion   String             @db.VarChar(255)
+  codigo_SKU    String             @db.VarChar(255)
+  precio        Decimal            @db.Decimal(10, 2)
+  stock         Int
+  estado        Estado             @relation(fields: [id_estado], references: [id])
+  id_estado     Int
+  proveedor     Proveedor          @relation(fields: [id_proveedor], references: [id])
+  id_proveedor  Int
+  categoria     CategoriaProductos @relation(fields: [id_categoria], references: [id])
+  id_categoria  Int
+  DetalleVenta  DetalleVenta[]
+  DetalleCompra DetalleCompra[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([codigo_SKU])
+  @@map("productos")
+}
+
+// 5. Tipos de Usuarios (Roles)
+model Rol {
+  id          Int       @id @default(autoincrement())
+  nombre      String    @db.VarChar(255)
+  descripcion String    @db.VarChar(255)
+  Usuario     Usuario[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([nombre])
+  @@map("roles")
+}
+
+// 6. Usuarios
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  nombre   String   @db.VarChar(255)
+  email    String   @db.VarChar(255)
+  password String   @db.VarChar(255)
+  rol      Rol      @relation(fields: [id_rol], references: [id])
+  id_rol   Int
+  Venta    Venta[]
+  Compra   Compra[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([email])
+  @@map("usuarios")
+}
+
+// 7. Ventas
+model Venta {
+  id           Int            @id @default(autoincrement())
+  fecha        DateTime       @db.Date
+  total        Decimal        @db.Decimal(10, 2)
+  motivo       String         @db.VarChar(255)
+  estado       Estado         @relation(fields: [id_estado], references: [id])
+  id_estado    Int
+  usuario      Usuario        @relation(fields: [id_usuario], references: [id])
+  id_usuario   Int
+  DetalleVenta DetalleVenta[]
+
+  createdAt DateTime @default(now())
+
+  @@map("ventas")
+}
+
+// 8. Compras
+model Compra {
+  id            Int             @id @default(autoincrement())
+  fecha         DateTime        @db.Date
+  total         Decimal         @db.Decimal(10, 2)
+  impuesto      Decimal         @db.Decimal(10, 2)
+  motivo        String          @db.VarChar(255)
+  estado        Estado          @relation(fields: [id_estado], references: [id])
+  id_estado     Int
+  proveedor     Proveedor       @relation(fields: [id_proveedor], references: [id])
+  id_proveedor  Int
+  usuario       Usuario         @relation(fields: [id_usuario], references: [id])
+  id_usuario    Int
+  DetalleCompra DetalleCompra[]
+
+  createdAt DateTime @default(now())
+
+  @@map("compras")
+}
+
+// 9. Detalle de Ventas
+model DetalleVenta {
+  id          Int      @id @default(autoincrement())
+  cantidad    Int
+  precio      Decimal  @db.Decimal(10, 2)
+  venta       Venta    @relation(fields: [id_venta], references: [id])
+  id_venta    Int
+  producto    Producto @relation(fields: [id_producto], references: [id])
+  id_producto Int
+
+  createdAt DateTime @default(now())
+
+  @@map("detalle_ventas")
+}
+
+// 10. Detalle de Compras
+model DetalleCompra {
+  id          Int      @id @default(autoincrement())
+  cantidad    Int
+  precio      Decimal  @db.Decimal(10, 2)
+  compra      Compra   @relation(fields: [id_compra], references: [id])
+  id_compra   Int
+  producto    Producto @relation(fields: [id_producto], references: [id])
+  id_producto Int
+
+  createdAt DateTime @default(now())
+
+  @@map("detalle_compras")
+}
