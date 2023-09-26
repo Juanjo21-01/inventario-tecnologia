@@ -1,3 +1,4 @@
+import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 
@@ -16,10 +17,18 @@ export default function paginaUsuarios() {
       email: 'ejemplo2@ejemplo.com',
     },
   ];
+
+  const campos = {
+    nombre: '',
+    email: '',
+  };
+
   return (
     <div>
       <Link href="usuarios/roles">Roles</Link>
       <h2>pagina con los usuarios registrados</h2>
+
+      <Formulario campos={campos} />
 
       <Tabla thead={encabezado} tbody={contenido} />
     </div>

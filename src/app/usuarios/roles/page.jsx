@@ -1,3 +1,4 @@
+import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 
 export default function roles() {
@@ -13,9 +14,15 @@ export default function roles() {
       nombre: 'Rol 2',
     },
   ];
+
+  const campos = {
+    nombre: '',
+  };
+
   return (
     <div>
-      roles de los usuarios
+      <h2> roles de los usuarios</h2>
+      <Formulario campos={campos} />
       <Tabla thead={encabezado} tbody={contenido} />
     </div>
   );

@@ -1,3 +1,4 @@
+import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import React from 'react';
 
@@ -16,9 +17,17 @@ export default function paginaVentas() {
       total: 200,
     },
   ];
+
+  const campos = {
+    fecha: new Date(),
+    total: 0,
+  };
+
   return (
     <div>
       <h2>listado de las ventas</h2>
+
+      <Formulario campos={campos} />
 
       <Tabla thead={encabezado} tbody={contenido} />
     </div>

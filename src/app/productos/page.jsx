@@ -1,3 +1,4 @@
+import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 
@@ -25,10 +26,20 @@ export default function paginaProductos() {
     },
   ];
 
+  const campos = {
+    nombre: '',
+    precio: 0,
+    existencia: 0,
+    boleano: false,
+  };
+
   return (
     <div>
       <Link href="productos/categoria">Categorias</Link>
       <h2>Listado de Productos</h2>
+
+      <Formulario campos={campos} />
+
       <Tabla thead={encabezado} tbody={contenido} />
     </div>
   );

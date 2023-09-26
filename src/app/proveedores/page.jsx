@@ -1,3 +1,4 @@
+import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 
 export default function paginaProveedores() {
@@ -21,9 +22,17 @@ export default function paginaProveedores() {
     },
   ];
 
+  const campos = {
+    nombre: '',
+    direccion: '',
+  };
+
   return (
     <div>
       <h2>Listado de Proveedores</h2>
+
+      <Formulario campos={campos} />
+
       <Tabla thead={encabezado} tbody={contenido} />
     </div>
   );
