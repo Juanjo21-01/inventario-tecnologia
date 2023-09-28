@@ -1,20 +1,12 @@
+import TablaEncabezado from './TablaEncabezado';
 import TablaContenido from './TablaContenido';
 
-const Tabla = ({ thead, tbody }) => {
+const Tabla = ({ thead, tbody, nombresRelaciones }) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          {thead.map((item, index) => (
-            <th key={index}>{item}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {tbody.map((item, index) => (
-          <TablaContenido key={index} item={item} />
-        ))}
-      </tbody>
+    <table style={{ border: '2px solid red', margin: '2rem' }}>
+      <TablaEncabezado thead={thead} />
+
+      <TablaContenido tbody={tbody} nombresRelaciones={nombresRelaciones} />
     </table>
   );
 };

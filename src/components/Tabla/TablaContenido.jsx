@@ -1,21 +1,26 @@
-'use client';
+import TablaContenidoFila from './TablaContenidoFila';
 
-import { useRouter, usePathname } from 'next/navigation';
-
-const TablaContenido = ({ item }) => {
-  const { push } = useRouter();
-  const nombreURL = usePathname();
-
-  const verContenido = () => {
-    push(`${nombreURL}/${item.id}`);
-  };
+const TablaContenido = ({ tbody, nombresRelaciones }) => {
+  // Validacion si no hay que reemplazar nada
+  if (nombresRelaciones) {
+    // Reemplazar en el contenido el id de la relación por el nombre de la relación
+    tbody.forEach((item) => {
+      Object.keys(item).forEach((llave) => {
+        if (nombresRelaciones[llave]) {
+          item[llave] = nombresRelaciones[llave].find(
+            (relacion) => relacion.id === item[llave]
+          ).nombre;
+        }
+      });
+    });
+  }
 
   return (
-    <tr onClick={verContenido}>
-      {Object.keys(item).map((llave, indice) => (
-        <td key={indice}>{item[llave]}</td>
+    <tbody>
+      {tbody.map((item, index) => (
+        <TablaContenidoFila key={index} item={item} />
       ))}
-    </tr>
+    </tbody>
   );
 };
 

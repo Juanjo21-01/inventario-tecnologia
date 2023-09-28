@@ -7,3 +7,38 @@ export async function GET() {
 
   return NextResponse.json(productos);
 }
+
+export async function POST(req) {
+  let {
+    nombre,
+    descripcion,
+    codigo_SKU,
+    precio,
+    stock,
+    id_estado,
+    id_proveedor,
+    id_categoria,
+  } = await req.json();
+
+  precio = parseInt(precio);
+  stock = parseInt(stock);
+  id_estado = parseInt(id_estado);
+  id_proveedor = parseInt(id_proveedor);
+  id_categoria = parseInt(id_categoria);
+
+  // Creamos un nuevo producto en la base de datos
+  const nuevoProducto = await prisma.producto.create({
+    data: {
+      nombre,
+      descripcion,
+      codigo_SKU,
+      precio,
+      stock,
+      id_estado,
+      id_proveedor,
+      id_categoria,
+    },
+  });
+
+  return NextResponse.json(nuevoProducto);
+}

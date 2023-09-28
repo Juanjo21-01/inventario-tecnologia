@@ -1,25 +1,64 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Input from './Input';
+import Label from './Label';
 
 const Formulario = ({ campos }) => {
-  const [formulario, setFormulario] = useState(campos);
-  console.log(formulario);
+  // ESTADO INICIAL
+  const initialState = Object.keys(campos).reduce((obj, item) => {
+    obj[item] = campos[item].value;
+    return obj;
+  }, {});
+
+  // VARIABLES DE ESTADO
+  const [formulario, setFormulario] = useState(initialState);
+  const router = useRouter();
+
+  // MANEJAR CAMBIOS EN EL FORMULARIO
+  const handleChange = (e) => {
+    setFormulario({
+      ...formulario,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // SUBIR DATOS
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // crear producto
+    await fetch('/api/productos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formulario),
+    });
+
+    handleReset();
+
+    // redireccionar a la página de productos
+    router.push('/productos');
+    router.refresh();
+  };
+
+  // RESETEAR FORMULARIO
+  const handleReset = () => setFormulario('');
 
   return (
-    <form>
-      {Object.keys(formulario).map((atributo, index) => {
+    <form onSubmit={handleSubmit}>
+      {Object.keys(formulario).map((atributo) => {
         return (
-          <div key={index}>
-            <label htmlFor={atributo}>
-              {atributo[0].toUpperCase() + atributo.slice(1)}
-            </label>
+          <div key={atributo}>
+            <Label atributo={atributo} />
 
             <Input
               atributo={atributo}
-              setFormulario={setFormulario}
+              campo={campos[atributo]}
               formulario={formulario}
+              handleChange={handleChange}
             />
           </div>
         );
