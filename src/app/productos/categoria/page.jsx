@@ -22,7 +22,7 @@ export default function categoriaProductos() {
 
   return (
     <div>
-      <Link href="productos">Productos</Link>
+      <Link href="/productos">Productos</Link>
       <h2>Categoria de Productos</h2>
 
       <Formulario campos={campos} />

@@ -3,11 +3,26 @@
 import { useRouter, usePathname } from 'next/navigation';
 
 const TablaContenidoFila = ({ item }) => {
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
   const nombreURL = usePathname();
 
+  // Información de cada fila
   const verContenido = () => {
     push(`${nombreURL}/${item.id}`);
+  };
+
+  // Editar contenido
+  const editarContenido = () => {
+    push(`${nombreURL}/${item.id}/editar`);
+  };
+
+  // Eliminar contenido
+  const eliminarContenido = async () => {
+    if (window.confirm('¿Está seguro de eliminar este contenido?')) {
+      await fetch(`/api/${nombreURL}/${item.id}`, { method: 'DELETE' });
+    }
+
+    refresh();
   };
 
   return (
@@ -18,9 +33,9 @@ const TablaContenidoFila = ({ item }) => {
         </td>
       ))}
       <td>
-        <button>Editar</button>
-        <button>Eliminar</button>
-        <button>Ver</button>
+        <button onClick={editarContenido}>Editar</button>
+        <button onClick={eliminarContenido}>Eliminar</button>
+        <button onClick={verContenido}>Ver</button>
       </td>
     </tr>
   );

@@ -1,20 +1,6 @@
 import Formulario from '@/components/Formulario/Formulario';
-import Tabla from '@/components/Tabla/Tabla';
-import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
 
-const obtenerProductos = async () =>
-  prisma.producto.findMany({
-    select: {
-      id: true,
-      nombre: true,
-      precio: true,
-      stock: true,
-      id_categoria: true,
-      id_proveedor: true,
-      id_estado: true,
-    },
-  });
 const obtenerCategorias = async () =>
   prisma.categoriaProductos.findMany({ select: { id: true, nombre: true } });
 const obtenerProveedores = async () =>
@@ -22,20 +8,10 @@ const obtenerProveedores = async () =>
 const obtenerEstados = async () =>
   prisma.estado.findMany({ select: { id: true, nombre: true } });
 
-export default async function paginaProductos() {
-  const productos = await obtenerProductos();
+export default async function editarProducto({ params: { id } }) {
   const categorias = await obtenerCategorias();
   const proveedores = await obtenerProveedores();
   const estados = await obtenerEstados();
-
-  // quitar datos innecesarios
-  productos.forEach((producto) => {
-    producto.precio = `$${producto.precio}`;
-  });
-
-  // listado de productos para la tabla
-  const encabezado = productos.length > 0 ? Object.keys(productos[0]) : [];
-
   const campos = {
     nombre: {
       etiqueta: 'input',
@@ -82,24 +58,11 @@ export default async function paginaProductos() {
     },
   };
 
-  const nombresRelaciones = {
-    id_estado: estados,
-    id_proveedor: proveedores,
-    id_categoria: categorias,
-  };
-
   return (
-    <div>
-      <Link href="productos/categoria">Categorias</Link>
-      <h2>Listado de Productos</h2>
+    <>
+      <h1>Editar Producto No. {id}</h1>
 
-      <Formulario campos={campos} />
-
-      <Tabla
-        thead={encabezado}
-        tbody={productos}
-        nombresRelaciones={nombresRelaciones}
-      />
-    </div>
+      <Formulario id={id} campos={campos} />
+    </>
   );
 }

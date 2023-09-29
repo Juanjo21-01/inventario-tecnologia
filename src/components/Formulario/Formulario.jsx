@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from './Input';
 import Label from './Label';
 
-const Formulario = ({ campos }) => {
+const Formulario = ({ campos, id }) => {
   // ESTADO INICIAL
   const initialState = Object.keys(campos).reduce((obj, item) => {
     obj[item] = campos[item].value;
@@ -24,18 +24,54 @@ const Formulario = ({ campos }) => {
     });
   };
 
+  // VER PARAMS PARA ACTUALIZAR
+  useEffect(() => {
+    if (!id) return;
+
+    const obtenerProducto = async () => {
+      const res = await fetch(`/api/productos/${id}`);
+      const data = await res.json();
+
+      setFormulario({
+        nombre: data.nombre,
+        codigo_SKU: data.codigo_SKU,
+        precio: data.precio,
+        stock: data.stock,
+        id_estado: data.estado.id.toString(),
+        id_proveedor: data.proveedor.id.toString(),
+        id_categoria: data.categoria.id.toString(),
+        descripcion: data.descripcion,
+      });
+
+    };
+
+    obtenerProducto();
+  }, [id]);
+  // console.log(formulario);
+
   // SUBIR DATOS
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // crear producto
-    await fetch('/api/productos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formulario),
-    });
+    if (!id) {
+      // crear producto
+      await fetch('/api/productos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formulario),
+      });
+    } else {
+      // actualizar producto
+      await fetch(`/api/productos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formulario),
+      });
+    }
 
     handleReset();
 
@@ -63,7 +99,12 @@ const Formulario = ({ campos }) => {
           </div>
         );
       })}
-      <button>Registrar</button>
+
+      {id ? (
+        <button type="submit">Actualizar</button>
+      ) : (
+        <button type="submit">Crear</button>
+      )}
     </form>
   );
 };
