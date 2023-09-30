@@ -16,6 +16,7 @@ const obtenerProveedores = async () =>
 
 export default async function paginaProveedores() {
   const proveedores = await obtenerProveedores();
+  
   // listado de proveedores para la tabla
   const encabezado = proveedores.length > 0 ? Object.keys(proveedores[0]) : [];
 

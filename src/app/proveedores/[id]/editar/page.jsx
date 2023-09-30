@@ -49,7 +49,7 @@ export default async function editarProveedor({ params: { id } }) {
   const pathname = '/proveedores';
   return (
     <>
-      <h1>Editar Producto No. {id}</h1>
+      <h1>Editar Proveedor No. {id}</h1>
 
       <Formulario
         id={id}
