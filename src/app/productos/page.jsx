@@ -87,13 +87,13 @@ export default async function paginaProductos() {
     id_proveedor: proveedores,
     id_categoria: categorias,
   };
-
+  const pathname = '/productos';
   return (
     <div>
       <Link href="productos/categoria">Categorias</Link>
       <h2>Listado de Productos</h2>
 
-      <Formulario campos={campos} />
+      <Formulario campos={campos} pathname={pathname} />
 
       <Tabla
         thead={encabezado}

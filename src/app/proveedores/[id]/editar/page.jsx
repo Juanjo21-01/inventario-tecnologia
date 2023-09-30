@@ -1,11 +1,12 @@
 import Formulario from '@/components/Formulario/Formulario';
-import Tabla from '@/components/Tabla/Tabla';
 import { prisma } from '@/libs/prisma';
 
-const obtenerProveedores = async () =>
-  prisma.proveedor.findMany({
+const obtenerProveedores = async (id) =>
+  prisma.proveedor.findUnique({
+    where: {
+      id: Number(id),
+    },
     select: {
-      id: true,
       nombre: true,
       nit: true,
       email: true,
@@ -14,10 +15,8 @@ const obtenerProveedores = async () =>
     },
   });
 
-export default async function paginaProveedores() {
-  const proveedores = await obtenerProveedores();
-  // listado de proveedores para la tabla
-  const encabezado = proveedores.length > 0 ? Object.keys(proveedores[0]) : [];
+export default async function editarProveedor({ params: { id } }) {
+  const data = await obtenerProveedores(id);
 
   const campos = {
     nombre: {
@@ -37,7 +36,7 @@ export default async function paginaProveedores() {
     },
     telefono: {
       etiqueta: 'input',
-      type: 'tel',
+      type: 'text',
       value: '',
     },
     direccion: {
@@ -49,12 +48,15 @@ export default async function paginaProveedores() {
 
   const pathname = '/proveedores';
   return (
-    <div>
-      <h2>Listado de Proveedores</h2>
+    <>
+      <h1>Editar Producto No. {id}</h1>
 
-      <Formulario campos={campos} pathname={pathname} />
-
-      <Tabla thead={encabezado} tbody={proveedores} />
-    </div>
+      <Formulario
+        id={id}
+        campos={campos}
+        datosActualizar={data}
+        pathname={pathname}
+      />
+    </>
   );
 }

@@ -7,11 +7,32 @@ const obtenerProveedores = async () =>
   prisma.proveedor.findMany({ select: { id: true, nombre: true } });
 const obtenerEstados = async () =>
   prisma.estado.findMany({ select: { id: true, nombre: true } });
+const obtenerProducto = async (id) =>
+  prisma.producto.findUnique({
+    where: { id: Number(id) },
+    select: {
+      nombre: true,
+      codigo_SKU: true,
+      precio: true,
+      stock: true,
+      id_estado: true,
+      id_proveedor: true,
+      id_categoria: true,
+      descripcion: true,
+    },
+  });
 
 export default async function editarProducto({ params: { id } }) {
   const categorias = await obtenerCategorias();
   const proveedores = await obtenerProveedores();
   const estados = await obtenerEstados();
+  let data = await obtenerProducto(id);
+
+  data = {
+    ...data,
+    precio: Number(data.precio),
+  };
+
   const campos = {
     nombre: {
       etiqueta: 'input',
@@ -58,11 +79,17 @@ export default async function editarProducto({ params: { id } }) {
     },
   };
 
+  const pathname = '/productos';
   return (
     <>
       <h1>Editar Producto No. {id}</h1>
 
-      <Formulario id={id} campos={campos} />
+      <Formulario
+        id={id}
+        campos={campos}
+        datosActualizar={data}
+        pathname={pathname}
+      />
     </>
   );
 }

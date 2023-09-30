@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Input from './Input';
 import Label from './Label';
 
-const Formulario = ({ campos, id }) => {
+const Formulario = ({ campos, pathname, id, datosActualizar }) => {
   // ESTADO INICIAL
   const initialState = Object.keys(campos).reduce((obj, item) => {
     obj[item] = campos[item].value;
@@ -28,34 +28,16 @@ const Formulario = ({ campos, id }) => {
   useEffect(() => {
     if (!id) return;
 
-    const obtenerProducto = async () => {
-      const res = await fetch(`/api/productos/${id}`);
-      const data = await res.json();
-
-      setFormulario({
-        nombre: data.nombre,
-        codigo_SKU: data.codigo_SKU,
-        precio: data.precio,
-        stock: data.stock,
-        id_estado: data.estado.id.toString(),
-        id_proveedor: data.proveedor.id.toString(),
-        id_categoria: data.categoria.id.toString(),
-        descripcion: data.descripcion,
-      });
-
-    };
-
-    obtenerProducto();
+    setFormulario(datosActualizar);
   }, [id]);
-  // console.log(formulario);
 
   // SUBIR DATOS
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!id) {
-      // crear producto
-      await fetch('/api/productos', {
+      // crear datos
+      await fetch(`/api${pathname}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,8 +45,8 @@ const Formulario = ({ campos, id }) => {
         body: JSON.stringify(formulario),
       });
     } else {
-      // actualizar producto
-      await fetch(`/api/productos/${id}`, {
+      // actualizar datos
+      await fetch(`/api${pathname}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -75,8 +57,7 @@ const Formulario = ({ campos, id }) => {
 
     handleReset();
 
-    // redireccionar a la página de productos
-    router.push('/productos');
+    router.push(pathname);
     router.refresh();
   };
 

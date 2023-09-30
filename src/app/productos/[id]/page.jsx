@@ -1,5 +1,3 @@
-'use client';
-
 const getProducto = async (id) => {
   const response = await fetch(`http://localhost:3000/api/productos/${id}`);
   const data = await response.json();
