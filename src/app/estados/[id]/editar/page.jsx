@@ -1,8 +1,8 @@
 import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
 
-const obtenerCategoria = async (id) =>
-  prisma.categoriaProductos.findUnique({
+const obtenerEstado = async (id) =>
+  prisma.estado.findUnique({
     where: {
       id: Number(id),
     },
@@ -12,8 +12,8 @@ const obtenerCategoria = async (id) =>
     },
   });
 
-export default async function editarCategoria({ params: { id } }) {
-  const data = await obtenerCategoria(id);
+export default async function editarEstado({ params: { id } }) {
+  const data = await obtenerEstado(id);
 
   const campos = {
     nombre: {
@@ -28,10 +28,10 @@ export default async function editarCategoria({ params: { id } }) {
     },
   };
 
-  const pathname = '/productos/categoria';
+  const pathname = '/estados';
   return (
     <>
-      <h1>Editar Categoria No. {id}</h1>
+      <h1>Editar Estado No. {id}</h1>
 
       <Formulario
         id={id}

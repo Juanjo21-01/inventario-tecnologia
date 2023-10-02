@@ -91,6 +91,7 @@ export default async function paginaProductos() {
   return (
     <div>
       <Link href="productos/categoria">Categorias</Link>
+      <Link href="estados">Estados</Link>
       <h2>Listado de Productos</h2>
 
       <Formulario campos={campos} pathname={pathname} />

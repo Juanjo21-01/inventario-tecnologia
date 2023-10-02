@@ -1,6 +1,6 @@
 import Navegacion from '@/components/Navegacion';
-import './globals.css';
 import Footer from '@/components/Footer';
+import './globals.css';
 
 export const metadata = {
   title: 'Inventario',
@@ -11,11 +11,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body>
-        <Navegacion />
+        <div className="main">
+          <div className="gradient"></div>
+        </div>
 
-        {children}
+        <main className="app">
+          <Navegacion />
 
-        <Footer />
+          {children}
+          <Footer />
+        </main>
       </body>
     </html>
   );
