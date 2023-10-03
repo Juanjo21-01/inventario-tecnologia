@@ -15,7 +15,6 @@ export default async function informacionCategoria({ params: { id } }) {
   const encabezadoProductos =
     productos.length > 0 ? Object.keys(productos[0]) : [];
 
-  console.log(productos);
   return (
     <div>
       <h1>{categoria.nombre}</h1>

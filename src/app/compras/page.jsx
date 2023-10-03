@@ -1,34 +1,55 @@
-import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
+import Link from 'next/link';
+import { prisma } from '@/libs/prisma';
 
-export default function paginaCompras() {
+const obtenerCompras = async () =>
+  prisma.compra.findMany({
+    select: {
+      id: true,
+      fecha: true,
+      total: true,
+    },
+  });
+const obtenerEstados = async () =>
+  prisma.estado.findMany({ select: { id: true, nombre: true } });
+const obtenerProveedores = async () =>
+  prisma.proveedor.findMany({ select: { id: true, nombre: true } });
+
+export default async function paginaCompras() {
+  const compras = await obtenerCompras();
+  const estados = await obtenerEstados();
+  const proveedores = await obtenerProveedores();
+
+  // pasar fecha a formato local y total a moneda
+  compras.forEach((compra) => {
+    compra.fecha = new Date(compra.fecha).toLocaleDateString();
+    compra.total = `Q. ${compra.total}`;
+  });
+
   // listado de compras para la tabla
-  const encabezado = ['ID', 'Fecha', 'Total', 'Acciones'];
-  const contenido = [
-    {
-      id: 1,
-      fecha: '2021-09-01',
-      total: 100,
-    },
-    {
-      id: 2,
-      fecha: '2021-09-02',
-      total: 200,
-    },
-  ];
+  const encabezado =
+    compras.length > 0
+      ? Object.keys(compras[0])
+      : ['fecha', 'total', 'estado', 'proveedor'];
 
-  const campos = {
-    fecha: new Date(),
-    total: 0,
+  const nombresRelaciones = {
+    id_estado: estados,
+    id_proveedor: proveedores,
   };
 
   return (
     <div>
-      <h2>listado de las compras</h2>
+      <h2>Listado de Compras</h2>
 
-      <Formulario campos={campos} />
+      <Link href="/compras/registrar">Registrar Nueva Compra</Link>
 
-      <Tabla thead={encabezado} tbody={contenido} />
+      {/* <Formulario campos={campos} /> */}
+
+      <Tabla
+        thead={encabezado}
+        tbody={compras}
+        nombresRelaciones={nombresRelaciones}
+      />
     </div>
   );
 }

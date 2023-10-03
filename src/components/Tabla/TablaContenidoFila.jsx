@@ -33,8 +33,14 @@ const TablaContenidoFila = ({ item }) => {
         </td>
       ))}
       <td>
-        <button onClick={editarContenido}>Editar</button>
-        <button onClick={eliminarContenido}>Eliminar</button>
+        {/* no mostrar botón de editar y eliminar si es compra o venta */}
+        {nombreURL === '/compras' || nombreURL === '/ventas' ? null : (
+          <>
+            <button onClick={editarContenido}>Editar</button>
+            <button onClick={eliminarContenido}>Eliminar</button>
+          </>
+        )}
+
         <button onClick={verContenido}>Ver</button>
       </td>
     </tr>

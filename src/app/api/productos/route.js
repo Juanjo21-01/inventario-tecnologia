@@ -20,6 +20,7 @@ export async function POST(req) {
     id_categoria,
   } = await req.json();
 
+  // Parsear los datos a enteros
   precio = parseInt(precio);
   stock = parseInt(stock);
   id_estado = parseInt(id_estado);

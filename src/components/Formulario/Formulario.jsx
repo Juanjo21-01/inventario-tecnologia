@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Input from './Input';
 import Label from './Label';
 
-const Formulario = ({ campos, pathname, id, datosActualizar }) => {
+const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   // ESTADO INICIAL
   const initialState = Object.keys(campos).reduce((obj, item) => {
     obj[item] = campos[item].value;
@@ -14,6 +14,8 @@ const Formulario = ({ campos, pathname, id, datosActualizar }) => {
 
   // VARIABLES DE ESTADO
   const [formulario, setFormulario] = useState(initialState);
+  const [detalles, setDetalles] = useState([]);
+  const [total, setTotal] = useState(0);
   const router = useRouter();
 
   // MANEJAR CAMBIOS EN EL FORMULARIO
@@ -62,7 +64,32 @@ const Formulario = ({ campos, pathname, id, datosActualizar }) => {
   };
 
   // RESETEAR FORMULARIO
-  const handleReset = () => setFormulario('');
+  const handleReset = () => setFormulario(initialState);
+
+  // HACER EL DETALLE DE COMPRA O VENTA
+  const handleClick = () => {
+    console.log('AGREGAR AL DETALLE');
+
+    const detalle = {
+      id_producto: formulario.id_producto,
+      cantidad: formulario.cantidad,
+      precio: formulario.precio,
+    };
+
+    // CALCULAR TOTAL
+    const totalIngresado = formulario.cantidad * formulario.precio;
+    setTotal(total + totalIngresado);
+
+    // AGREGAR DETALLE
+    setDetalles([...detalles, detalle]);
+
+    // AGREGAR DETALLE Y TOTAL AL FORMULARIO
+    setFormulario({
+      ...formulario,
+      Detalle: [...detalles, detalle],
+      total: total + totalIngresado,
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -81,10 +108,29 @@ const Formulario = ({ campos, pathname, id, datosActualizar }) => {
         );
       })}
 
-      {id ? (
-        <button type="submit">Actualizar</button>
+      {/* DETALLE DE COMPRA O VENTA */}
+      {detalle ? (
+        <>
+          <h3>Es Compra</h3>
+          <button type="button" onClick={handleClick}>
+            Agregar
+          </button>
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <button type="submit">Crear</button>
+        </>
       ) : (
-        <button type="submit">Crear</button>
+        <>
+          {id ? (
+            <button type="submit">Actualizar</button>
+          ) : (
+            <button type="submit">Crear</button>
+          )}
+        </>
       )}
     </form>
   );
