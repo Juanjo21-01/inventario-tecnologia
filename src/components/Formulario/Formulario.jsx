@@ -16,6 +16,7 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   const [formulario, setFormulario] = useState(initialState);
   const [detalles, setDetalles] = useState([]);
   const [total, setTotal] = useState(0);
+
   const router = useRouter();
 
   // MANEJAR CAMBIOS EN EL FORMULARIO
@@ -91,6 +92,28 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
     });
   };
 
+  // QUITAR ELEMENTO DEL DETALLE
+  const quitarElemento = (detalle) => {
+    console.log('QUITAR ELEMENTO');
+
+    // Reducir el estado de detalles
+    const detallesFiltrados = detalles.filter((item) => item !== detalle);
+
+    // Reducir el total
+    const totalReducido = total - detalle.cantidad * detalle.precio;
+    setTotal(totalReducido);
+
+    // Actualizar el estado de detalles
+    setDetalles(detallesFiltrados);
+
+    // Actualizar el estado de formulario
+    setFormulario({
+      ...formulario,
+      Detalle: detallesFiltrados,
+      total: totalReducido,
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       {Object.keys(formulario).map((atributo) => {
@@ -111,17 +134,55 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
       {/* DETALLE DE COMPRA O VENTA */}
       {detalle ? (
         <>
-          <h3>Es Compra</h3>
           <button type="button" onClick={handleClick}>
             Agregar
           </button>
 
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <button type="submit">Crear</button>
+          <h3>Detalle</h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Acciones</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Sub Total</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {detalles.map((detalle, index) => (
+                <tr key={index}>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => quitarElemento(detalle)}
+                    >
+                      Quitar
+                    </button>
+                  </td>
+                  <td>
+                    {campos.id_producto.informacion.map((producto) => {
+                      if (detalle.id_producto == producto.id)
+                        return producto.nombre;
+                    })}
+                  </td>
+                  <td>{detalle.cantidad}</td>
+                  <td>{detalle.precio}</td>
+                  <td>{detalle.cantidad * detalle.precio}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="4">Total</td>
+                <td>{total}</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          {detalles.length > 0 && <button type="submit">Crear</button>}
         </>
       ) : (
         <>
