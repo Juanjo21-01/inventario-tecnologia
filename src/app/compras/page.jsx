@@ -8,6 +8,8 @@ const obtenerCompras = async () =>
       id: true,
       fecha: true,
       total: true,
+      id_estado: true,
+      id_proveedor: true,
     },
   });
 const obtenerEstados = async () =>
@@ -42,8 +44,6 @@ export default async function paginaCompras() {
       <h2>Listado de Compras</h2>
 
       <Link href="/compras/registrar">Registrar Nueva Compra</Link>
-
-      {/* <Formulario campos={campos} /> */}
 
       <Tabla
         thead={encabezado}

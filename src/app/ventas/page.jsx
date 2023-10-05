@@ -1,35 +1,48 @@
-import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
-import React from 'react';
+import Link from 'next/link';
+import { prisma } from '@/libs/prisma';
 
-export default function paginaVentas() {
+const obtenerVentas = async () =>
+  prisma.venta.findMany({
+    select: {
+      id: true,
+      fecha: true,
+      total: true,
+      id_estado: true,
+    },
+  });
+const obtenerEstados = async () =>
+  prisma.estado.findMany({ select: { id: true, nombre: true } });
+
+export default async function paginaVentas() {
+  const ventas = await obtenerVentas();
+  const estados = await obtenerEstados();
+
+  // pasar fecha a formato local y total a moneda
+  ventas.forEach((venta) => {
+    venta.fecha = new Date(venta.fecha).toLocaleDateString();
+    venta.total = `Q. ${venta.total}`;
+  });
+
   // listado de ventas para la tabla
-  const encabezado = ['ID', 'Fecha', 'Total', 'Acciones'];
-  const contenido = [
-    {
-      id: 1,
-      fecha: '2021-09-01',
-      total: 100,
-    },
-    {
-      id: 2,
-      fecha: '2021-09-02',
-      total: 200,
-    },
-  ];
+  const encabezado =
+    ventas.length > 0 ? Object.keys(ventas[0]) : ['fecha', 'total', 'estado'];
 
-  const campos = {
-    fecha: new Date(),
-    total: 0,
+  const nombresRelaciones = {
+    id_estado: estados,
   };
 
   return (
     <div>
-      <h2>listado de las ventas</h2>
+      <h2>listado de Ventas</h2>
 
-      <Formulario campos={campos} />
+      <Link href="/ventas/registrar">Registrar Nueva Venta</Link>
 
-      <Tabla thead={encabezado} tbody={contenido} />
+      <Tabla
+        thead={encabezado}
+        tbody={ventas}
+        nombresRelaciones={nombresRelaciones}
+      />
     </div>
   );
 }

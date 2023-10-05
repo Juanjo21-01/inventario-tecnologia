@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/libs/prisma';
-import { Decimal } from '@prisma/client/runtime/library';
 
 export async function GET() {
   // Obtenemos todas las compras de la base de datos
