@@ -16,15 +16,203 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   const [formulario, setFormulario] = useState(initialState);
   const [detalles, setDetalles] = useState([]);
   const [total, setTotal] = useState(0);
+  const [errors, setErrors] = useState({});
 
   const router = useRouter();
 
+  // VALIDAR FORMULARIO
+  const validar = (formulario) => {
+    let errors = {};
+    let regexName = /^[a-zA-ZÀ-ÿ\s]{1,100}$/;
+    let regexSku = /^[a-zA-Z0-9]{1,20}$/;
+    let regexPrecio = /^[0-9]{1,10}([.][0-9]{1,2})?$/;
+    let regexCantidad = /^[0-9]{1,10}$/;
+    let regexImpuesto = /^[0-9]{1,3}([.][0-9]{1,2})?$/;
+    let regexSelects = /^[1-9]{1,10}$/;
+    let regexDescripcion = /^.{1,255}$/;
+    let regexEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    let regexTelefono = /^[0-9]{1,10}$/;
+
+    // ERRORES DEL FORMULARIO
+    const camposFormulario = Object.keys(formulario);
+
+    // nombre
+    if (camposFormulario.includes('nombre')) {
+      if (!formulario.nombre.trim()) {
+        errors.nombre = 'El campo "Nombre" es requerido';
+      } else if (!regexName.test(formulario.nombre.trim())) {
+        errors.nombre =
+          'El campo "Nombre" es incorrecto, sólo acepta letras y espacios en blanco';
+      }
+    }
+
+    // Codigo SKU
+    if (camposFormulario.includes('codigo_SKU')) {
+      if (!formulario.codigo_SKU.trim()) {
+        errors.codigo_SKU = 'El campo "Código SKU" es requerido';
+      } else if (!regexSku.test(formulario.codigo_SKU.trim())) {
+        errors.codigo_SKU =
+          'El campo "Código SKU" es incorrecto, sólo acepta letras y números';
+      }
+    }
+
+    // Precio
+    if (camposFormulario.includes('precio')) {
+      if (!formulario.precio) {
+        errors.precio = 'El campo "Precio" es requerido';
+      } else if (!regexPrecio.test(formulario.precio)) {
+        errors.precio =
+          'El campo "Precio" es incorrecto, sólo acepta números positivos y de 10 dígitos como máximo';
+      }
+    }
+
+    // Cantidad y Stock
+    if (camposFormulario.includes('stock')) {
+      if (!formulario.stock) {
+        errors.stock = 'El campo "Stock" es requerido';
+      } else if (!regexCantidad.test(formulario.stock)) {
+        errors.stock =
+          'El campo "Stock" es incorrecto, sólo acepta números enteros positivos';
+      }
+    }
+    if (camposFormulario.includes('cantidad')) {
+      if (!formulario.cantidad) {
+        errors.cantidad = 'El campo "Cantidad" es requerido';
+      } else if (!regexCantidad.test(formulario.cantidad)) {
+        errors.cantidad =
+          'El campo "Cantidad" es incorrecto, sólo acepta números enteros positivos';
+      }
+    }
+
+    // Impuesto
+    if (camposFormulario.includes('impuesto')) {
+      if (!formulario.impuesto) {
+        errors.impuesto = 'El campo "Impuesto" es requerido';
+      } else if (!regexImpuesto.test(formulario.impuesto)) {
+        errors.impuesto =
+          'El campo "Impuesto" es incorrecto, sólo acepta números positivos y de 3 dígitos como máximo';
+      }
+    }
+
+    // Estado
+    if (camposFormulario.includes('id_estado')) {
+      if (!formulario.id_estado) {
+        errors.id_estado = 'El campo "Estado" es requerido';
+      } else if (!regexSelects.test(formulario.id_estado)) {
+        errors.id_estado = 'El campo "Estado" es incorrecto';
+      }
+    }
+
+    // Proveedor
+    if (camposFormulario.includes('id_proveedor')) {
+      if (!formulario.id_proveedor) {
+        errors.id_proveedor = 'El campo "Proveedor" es requerido';
+      } else if (!regexSelects.test(formulario.id_proveedor)) {
+        errors.id_proveedor = 'El campo "Proveedor" es incorrecto';
+      }
+    }
+
+    // Categoria
+    if (camposFormulario.includes('id_categoria')) {
+      if (!formulario.id_categoria) {
+        errors.id_categoria = 'El campo "Categoría" es requerido';
+      } else if (!regexSelects.test(formulario.id_categoria)) {
+        errors.id_categoria = 'El campo "Categoría" es incorrecto';
+      }
+    }
+
+    // Producto
+    if (camposFormulario.includes('id_producto')) {
+      if (!formulario.id_producto) {
+        errors.id_producto = 'El campo "Producto" es requerido';
+      } else if (!regexSelects.test(formulario.id_producto)) {
+        errors.id_producto = 'El campo "Producto" es incorrecto';
+      }
+    }
+
+    // Descripcion y Motivo
+    if (camposFormulario.includes('descripcion')) {
+      if (!formulario.descripcion.trim()) {
+        errors.descripcion = 'El campo "Descripción" es requerido';
+      } else if (!regexDescripcion.test(formulario.descripcion.trim())) {
+        errors.descripcion =
+          'El campo "Descripción" es incorrecto, sólo acepta 255 caracteres como máximo';
+      }
+    }
+    if (camposFormulario.includes('motivo')) {
+      if (!formulario.motivo.trim()) {
+        errors.motivo = 'El campo "Motivo" es requerido';
+      } else if (!regexDescripcion.test(formulario.motivo.trim())) {
+        errors.motivo =
+          'El campo "Motivo" es incorrecto, sólo acepta 255 caracteres como máximo';
+      }
+    }
+
+    // Fecha
+    if (camposFormulario.includes('fecha')) {
+      if (!formulario.fecha) {
+        errors.fecha = 'El campo "Fecha" es requerido';
+      }
+    }
+
+    // Nit
+    if (camposFormulario.includes('nit')) {
+      if (!formulario.nit.trim()) {
+        errors.nit = 'El campo "NIT" es requerido';
+      } else if (!regexSku.test(formulario.nit.trim())) {
+        errors.nit =
+          'El campo "NIT" es incorrecto, sólo acepta letras y números';
+      }
+    }
+
+    // Email
+    if (camposFormulario.includes('email')) {
+      if (!formulario.email.trim()) {
+        errors.email = 'El campo "Email" es requerido';
+      } else if (!regexEmail.test(formulario.email.trim())) {
+        errors.email = 'El campo "Email" es incorrecto';
+      }
+    }
+
+    // Telefono
+    if (camposFormulario.includes('telefono')) {
+      if (!formulario.telefono.trim()) {
+        errors.telefono = 'El campo "Teléfono" es requerido';
+      } else if (!regexTelefono.test(formulario.telefono.trim())) {
+        errors.telefono =
+          'El campo "Teléfono" es incorrecto, sólo acepta números y de 10 dígitos como máximo';
+      }
+    }
+
+    // Direccion
+    if (camposFormulario.includes('direccion')) {
+      if (!formulario.direccion.trim()) {
+        errors.direccion = 'El campo "Dirección" es requerido';
+      } else if (!regexDescripcion.test(formulario.direccion.trim())) {
+        errors.direccion =
+          'El campo "Dirección" es incorrecto, sólo acepta 255 caracteres como máximo';
+      }
+    }
+
+    return errors;
+  };
+
   // MANEJAR CAMBIOS EN EL FORMULARIO
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
     setFormulario({
       ...formulario,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+  };
+
+  // MANEJAR CAMBIOS DE FOCO EN LOS INPUTS
+  const handleBlur = (e) => {
+    handleChange(e);
+
+    // VALIDAR CAMPOS
+    setErrors(validar(formulario));
   };
 
   // VER PARAMS PARA ACTUALIZAR
@@ -37,6 +225,12 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   // SUBIR DATOS
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar el formulario
+    setErrors(validar(formulario));
+
+    // Si hay errores, no se envía el formulario
+    if (Object.keys(errors).length > 0) return;
 
     if (!id) {
       // crear datos
@@ -71,6 +265,15 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   const handleClick = () => {
     console.log('AGREGAR AL DETALLE');
 
+    if (
+      formulario.id_producto === '' ||
+      formulario.cantidad === 0 ||
+      formulario.precio === 0
+    ) {
+      alert('Seleccione un producto, una cantidad y un precio');
+      return;
+    }
+
     const detalle = {
       id_producto: formulario.id_producto,
       cantidad: formulario.cantidad,
@@ -89,6 +292,14 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
       ...formulario,
       Detalle: [...detalles, detalle],
       total: total + totalIngresado,
+    });
+
+    // RESETEAR CAMPOS
+    setFormulario({
+      ...formulario,
+      id_producto: '',
+      cantidad: 0,
+      precio: 0,
     });
   };
 
@@ -126,6 +337,8 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
               campo={campos[atributo]}
               formulario={formulario}
               handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors}
             />
           </div>
         );
