@@ -1,5 +1,3 @@
-import Navegacion from '@/components/Navegacion';
-import Footer from '@/components/Footer';
 import './globals.css';
 
 export const metadata = {
@@ -15,12 +13,7 @@ export default function RootLayout({ children }) {
           <div className="gradient"></div>
         </div>
 
-        <main className="app">
-          <Navegacion />
-
-          {children}
-          <Footer />
-        </main>
+        <main className="app">{children}</main>
       </body>
     </html>
   );

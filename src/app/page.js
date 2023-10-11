@@ -1,9 +1,16 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
-    <main>
+    <>
       <h1>Gestión de Inventarios</h1>
 
       <h2>Empresa {'"Tecnología en un solo lugar"'}</h2>
-    </main>
+
+      <Link href="/login">Iniciar sesión</Link>
+      <br />
+
+      <Link href="/dashboard">Inicio</Link>
+    </>
   );
 }
