@@ -8,11 +8,10 @@ const getProducto = async (id) => {
 
 export default async function informacionProducto({ params: { id } }) {
   const producto = await getProducto(id);
-  console.log(producto);
   return (
-    <>
+    <div>
       {!producto.message ? (
-        <div>
+        <>
           <h1> {producto.nombre} </h1>
           <p>Descripcion: {producto.descripcion}</p>
           <p>Precio: {producto.precio}</p>
@@ -22,14 +21,14 @@ export default async function informacionProducto({ params: { id } }) {
           <p>Proveedor: {producto.proveedor.nombre}</p>
           <p>Categoria: {producto.categoria.nombre}</p>
           <p>Estado: {producto.estado.nombre}</p>
-        </div>
+        </>
       ) : (
-        <div>
+        <>
           <h1>{producto.message}</h1>
 
           <Link href="/productos">Volver a Productos</Link>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }

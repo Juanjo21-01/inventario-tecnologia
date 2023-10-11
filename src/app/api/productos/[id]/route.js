@@ -97,11 +97,22 @@ export async function PUT(req, { params: { id } }) {
       },
     });
 
+    // Si no se encuentra el producto, devolvemos un error
+    if (!productoActualizado)
+      return NextResponse.json(
+        {
+          message: 'No se encontró el producto',
+        },
+        {
+          status: 404,
+        }
+      );
+
     return NextResponse.json(productoActualizado);
   } catch (error) {
     return NextResponse.json(
       {
-        message: 'Error al obtener el producto',
+        message: 'Error al actualizar el producto',
       },
       {
         status: 400,
@@ -119,6 +130,7 @@ export async function DELETE(req, { params: { id } }) {
       },
     });
 
+    // Si no se encuentra el producto, devolvemos un error
     if (!productoEliminado)
       return NextResponse.json(
         {
@@ -133,7 +145,7 @@ export async function DELETE(req, { params: { id } }) {
   } catch (error) {
     return NextResponse.json(
       {
-        message: 'Error al obtener el producto',
+        message: 'Error al eliminar el producto',
       },
       {
         status: 400,
