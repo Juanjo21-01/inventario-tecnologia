@@ -32,6 +32,7 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
     let regexDescripcion = /^.{1,255}$/;
     let regexEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     let regexTelefono = /^[0-9]{1,10}$/;
+    let regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
     // ERRORES DEL FORMULARIO
     const camposFormulario = Object.keys(formulario);
@@ -194,6 +195,25 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
       }
     }
 
+    // Rol
+    if (camposFormulario.includes('id_rol')) {
+      if (!formulario.id_rol) {
+        errors.id_rol = 'El campo "Rol" es requerido';
+      } else if (!regexSelects.test(formulario.id_rol)) {
+        errors.id_rol = 'El campo "Rol" es incorrecto';
+      }
+    }
+
+    // Password
+    if (camposFormulario.includes('password')) {
+      if (!formulario.password.trim()) {
+        errors.password = 'El campo "Contraseña" es requerido';
+      } else if (!regexPassword.test(formulario.password.trim())) {
+        errors.password =
+          'El campo "Contraseña" es incorrecto, debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número';
+      }
+    }
+
     return errors;
   };
 
@@ -220,7 +240,7 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
     if (!id) return;
 
     setFormulario(datosActualizar);
-  }, [id]);
+  }, [id, datosActualizar]);
 
   // SUBIR DATOS
   const handleSubmit = async (e) => {
@@ -253,6 +273,12 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
     }
 
     handleReset();
+
+    if (pathname == '/auth/signup') {
+      router.push('/usuarios');
+      router.refresh();
+      return;
+    }
 
     router.push(pathname);
     router.refresh();
