@@ -25,17 +25,19 @@ export default async function informacionCategoria({ params: { id } }) {
           <p>Descripción: {categoria.descripcion}</p>
           <p>Fecha de Creación: {categoria.createdAt}</p>
 
-          <h2>Productos de la Categoria: {categoria.nombre}</h2>
-
-          <Tabla thead={encabezadoProductos} tbody={productos} />
+          <h2>Productos</h2>
+          {productos.length > 0 ? (
+            <Tabla thead={encabezadoProductos} tbody={productos} />
+          ) : (
+            <p>No hay productos con esta categoria</p>
+          )}
         </>
       ) : (
         <>
           <h1>{categoria.message}</h1>
-
-          <Link href="/productos/categoria">Volver a Categorias</Link>
         </>
       )}
+      <Link href="/productos/categoria">Volver a Categorias</Link>
     </div>
   );
 }

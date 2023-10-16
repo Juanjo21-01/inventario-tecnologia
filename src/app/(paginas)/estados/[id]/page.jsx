@@ -31,13 +31,25 @@ export default async function informacionEstado({ params: { id } }) {
           <p>Fecha de Creación: {estado.createdAt}</p>
 
           <h2>Productos</h2>
-          <Tabla thead={encabezadoProductos} tbody={productos} />
+          {productos.length > 0 ? (
+            <Tabla thead={encabezadoProductos} tbody={productos} />
+          ) : (
+            <p>No hay productos con este estado</p>
+          )}
 
           <h2>Compras</h2>
-          <Tabla thead={encabezadoCompras} tbody={compras} />
+          {compras.length > 0 ? (
+            <Tabla thead={encabezadoCompras} tbody={compras} />
+          ) : (
+            <p>No hay compras con este estado</p>
+          )}
 
           <h2>Ventas</h2>
-          <Tabla thead={encabezadoVentas} tbody={ventas} />
+          {ventas.length > 0 ? (
+            <Tabla thead={encabezadoVentas} tbody={ventas} />
+          ) : (
+            <p>No hay ventas con este estado</p>
+          )}
         </>
       ) : (
         <>

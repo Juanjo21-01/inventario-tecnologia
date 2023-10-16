@@ -1,6 +1,50 @@
+import Tabla from '@/components/Tabla/Tabla';
+import Link from 'next/link';
 
-export default function usuario({ params: { id }}) {
+const getUsuario = async (id) => {
+  const response = await fetch(`http://localhost:3000/api/usuarios/${id}`);
+  const data = await response.json();
+  return data;
+};
+
+export default async function usuario({ params: { id } }) {
+  const usuario = await getUsuario(id);
+  const rol = usuario.rol.nombre;
+  const ventas = usuario.Venta;
+  const compras = usuario.Compra;
+
+  const encabezadoVentas = ventas.length > 0 ? Object.keys(ventas[0]) : [];
+  const encabezadoCompras = compras.length > 0 ? Object.keys(compras[0]) : [];
+
   return (
-      <div>usuario no. {id}</div>
-  )
+    <div>
+      {!usuario.message ? (
+        <>
+          <h1> {usuario.nombre} </h1>
+          <p>Correo Electrónico: {usuario.email}</p>
+          <p>Fecha de Creación: {usuario.createdAt}</p>
+          <h3>Rol: {rol}</h3>
+
+          <h2>Ventas</h2>
+          {ventas.length > 0 ? (
+            <Tabla thead={encabezadoVentas} tbody={ventas} />
+          ) : (
+            <p>No hay ventas registradas con este usuario</p>
+          )}
+
+          <h2>Compras</h2>
+          {compras.length > 0 ? (
+            <Tabla thead={encabezadoCompras} tbody={compras} />
+          ) : (
+            <p>No hay compras registradas con este usuario</p>
+          )}
+        </>
+      ) : (
+        <>
+          <h1>{usuario.message}</h1>
+        </>
+      )}
+      <Link href="/usuarios">Volver a Usuarios</Link>
+    </div>
+  );
 }
