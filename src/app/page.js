@@ -1,3 +1,4 @@
+import LoginFormulario from '@/components/Formulario/LoginFormulario';
 import Link from 'next/link';
 
 export default function Home() {
@@ -7,10 +8,7 @@ export default function Home() {
 
       <h2>Empresa {'"Tecnología en un solo lugar"'}</h2>
 
-      <Link href="/login">Iniciar sesión</Link>
-      <br />
-
-      <Link href="/dashboard">Inicio</Link>
+      <LoginFormulario />
     </>
   );
 }

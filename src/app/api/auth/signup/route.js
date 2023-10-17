@@ -39,7 +39,12 @@ export async function POST(req) {
       },
     });
 
-    return NextResponse.json(nuevoUsuario);
+    return NextResponse.json({
+      id: nuevoUsuario.id,
+      nombre: nuevoUsuario.nombre,
+      email: nuevoUsuario.email,
+      id_rol: nuevoUsuario.id_rol,
+    });
   } catch (error) {
     return NextResponse.json(
       {

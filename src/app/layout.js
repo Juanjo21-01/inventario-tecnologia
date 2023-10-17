@@ -1,4 +1,5 @@
 import './globals.css';
+import Providers from './Providers';
 
 export const metadata = {
   title: 'Inventario',
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
           <div className="gradient"></div>
         </div>
 
-        <main className="app">{children}</main>
+        <Providers>
+          <main className="app">{children}</main>
+        </Providers>
       </body>
     </html>
   );
