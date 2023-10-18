@@ -1,5 +1,7 @@
 import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
+import getSession from '@/libs/session';
+import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerProveedores = async (id) =>
   prisma.proveedor.findUnique({
@@ -17,6 +19,7 @@ const obtenerProveedores = async (id) =>
 
 export default async function editarProveedor({ params: { id } }) {
   const data = await obtenerProveedores(id);
+  const session = await getSession();
 
   const campos = {
     nombre: {
@@ -48,15 +51,20 @@ export default async function editarProveedor({ params: { id } }) {
 
   const pathname = '/proveedores';
   return (
-    <>
-      <h1>Editar Proveedor No. {id}</h1>
-
-      <Formulario
-        id={id}
-        campos={campos}
-        datosActualizar={data}
-        pathname={pathname}
-      />
-    </>
+    <div>
+      {session.id_rol !== 3 ? (
+        <>
+          <h1>Editar Proveedor No. {id}</h1>
+          <Formulario
+            id={id}
+            campos={campos}
+            datosActualizar={data}
+            pathname={pathname}
+          />
+        </>
+      ) : (
+        <AccesoDenegado />
+      )}
+    </div>
   );
 }

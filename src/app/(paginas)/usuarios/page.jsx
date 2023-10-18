@@ -2,6 +2,8 @@ import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
+import getSession from '@/libs/session';
+import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerUsuarios = async () =>
   prisma.usuario.findMany({
@@ -9,16 +11,12 @@ const obtenerUsuarios = async () =>
       id: true,
       nombre: true,
       email: true,
+      id_rol: true,
     },
   });
 
 const obtenerRoles = async () =>
   prisma.rol.findMany({
-    where: {
-      id: {
-        not: 1,
-      },
-    },
     select: {
       id: true,
       nombre: true,
@@ -27,11 +25,21 @@ const obtenerRoles = async () =>
 
 export default async function paginaUsuarios() {
   const usuarios = await obtenerUsuarios();
-  const roles = await obtenerRoles();
+  let roles = await obtenerRoles();
+
+  const session = await getSession();
 
   // listado de usuarios para la tabla
   const encabezado =
     usuarios.length > 0 ? Object.keys(usuarios[0]) : ['id', 'nombre', 'email'];
+
+  const nombreRol = {
+    id_rol: roles,
+  };
+
+  // eliminar el rol administrador
+
+  roles = roles.filter((rol) => rol.id !== 1);
 
   const campos = {
     nombre: {
@@ -57,24 +65,26 @@ export default async function paginaUsuarios() {
     },
   };
 
-  const nombreRol = {
-    id_role: roles,
-  };
-
   const pathname = '/auth/signup';
 
   return (
     <div>
-      <Link href="usuarios/roles">Roles</Link>
-      <h2>Usuarios Registrados</h2>
+      {session.id_rol !== 3 ? (
+        <>
+          <Link href="usuarios/roles">Roles</Link>
+          <h2>Usuarios Registrados</h2>
 
-      <Formulario campos={campos} pathname={pathname} />
+          <Formulario campos={campos} pathname={pathname} />
 
-      <Tabla
-        thead={encabezado}
-        tbody={usuarios}
-        nombresRelaciones={nombreRol}
-      />
+          <Tabla
+            thead={encabezado}
+            tbody={usuarios}
+            nombresRelaciones={nombreRol}
+          />
+        </>
+      ) : (
+        <AccesoDenegado />
+      )}
     </div>
   );
 }

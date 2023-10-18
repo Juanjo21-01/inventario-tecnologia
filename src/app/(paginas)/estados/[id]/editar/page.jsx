@@ -1,5 +1,7 @@
 import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
+import getSession from '@/libs/session';
+import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerEstado = async (id) =>
   prisma.estado.findUnique({
@@ -14,6 +16,7 @@ const obtenerEstado = async (id) =>
 
 export default async function editarEstado({ params: { id } }) {
   const data = await obtenerEstado(id);
+  const session = await getSession();
 
   const campos = {
     nombre: {
@@ -30,15 +33,21 @@ export default async function editarEstado({ params: { id } }) {
 
   const pathname = '/estados';
   return (
-    <>
-      <h1>Editar Estado No. {id}</h1>
-
-      <Formulario
-        id={id}
-        campos={campos}
-        datosActualizar={data}
-        pathname={pathname}
-      />
-    </>
+    <div>
+      {session.id_rol !== 3 ? (
+        <>
+          {' '}
+          <h1>Editar Estado No. {id}</h1>
+          <Formulario
+            id={id}
+            campos={campos}
+            datosActualizar={data}
+            pathname={pathname}
+          />
+        </>
+      ) : (
+        <AccesoDenegado />
+      )}
+    </div>
   );
 }

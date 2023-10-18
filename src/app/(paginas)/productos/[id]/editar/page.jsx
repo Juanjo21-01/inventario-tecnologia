@@ -1,5 +1,7 @@
 import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
+import getSession from '@/libs/session';
+import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerCategorias = async () =>
   prisma.categoriaProductos.findMany({ select: { id: true, nombre: true } });
@@ -80,16 +82,24 @@ export default async function editarProducto({ params: { id } }) {
   };
 
   const pathname = '/productos';
-  return (
-    <>
-      <h1>Editar Producto No. {id}</h1>
 
-      <Formulario
-        id={id}
-        campos={campos}
-        datosActualizar={data}
-        pathname={pathname}
-      />
-    </>
+  const session = await getSession();
+  return (
+    <div>
+      {session.id_rol !== 3 ? (
+        <>
+          <h1>Editar Producto No. {id}</h1>
+
+          <Formulario
+            id={id}
+            campos={campos}
+            datosActualizar={data}
+            pathname={pathname}
+          />
+        </>
+      ) : (
+        <AccesoDenegado />
+      )}
+    </div>
   );
 }

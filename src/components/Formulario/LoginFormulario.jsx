@@ -28,14 +28,11 @@ const LoginFormulario = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(form);
     const res = await signIn('credentials', {
       email: form.email,
       password: form.password,
       redirect: false,
     });
-
-    console.log(res);
 
     if (res?.error) setError(res.error);
     if (res?.ok) return push('/dashboard');
@@ -50,6 +47,8 @@ const LoginFormulario = () => {
         type="email"
         name="email"
         id="email"
+        required
+        autoFocus
         value={form.email}
         onChange={handleChange}
       />
@@ -59,6 +58,7 @@ const LoginFormulario = () => {
         type="password"
         name="password"
         id="password"
+        required
         value={form.password}
         onChange={handleChange}
       />

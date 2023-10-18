@@ -1,5 +1,7 @@
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
+import getSession from '@/libs/session';
+import AccesoDenegado from '@/components/AccesoDenegado';
 
 const getRol = async (id) => {
   const response = await fetch(
@@ -11,6 +13,7 @@ const getRol = async (id) => {
 
 export default async function rol({ params: { id } }) {
   const rol = await getRol(id);
+  const session = await getSession();
 
   const usuarios = rol.Usuario || [];
 
@@ -19,26 +22,32 @@ export default async function rol({ params: { id } }) {
 
   return (
     <div>
-      {!rol.message ? (
+      {session.id_rol !== 3 ? (
         <>
-          <h1>{rol.nombre}</h1>
+          {!rol.message ? (
+            <>
+              <h1>{rol.nombre}</h1>
 
-          <p>Descripción: {rol.descripcion}</p>
-          <p>Fecha de Creación: {rol.createdAt}</p>
+              <p>Descripción: {rol.descripcion}</p>
+              <p>Fecha de Creación: {rol.createdAt}</p>
 
-          <h2>Usuarios</h2>
-          {usuarios.length > 0 ? (
-            <Tabla thead={encabezadoUsuarios} tbody={usuarios} />
+              <h2>Usuarios</h2>
+              {usuarios.length > 0 ? (
+                <Tabla thead={encabezadoUsuarios} tbody={usuarios} />
+              ) : (
+                <p>No hay usuarios con este rol</p>
+              )}
+            </>
           ) : (
-            <p>No hay usuarios con este rol</p>
+            <>
+              <h1>{rol.message}</h1>
+            </>
           )}
+          <Link href="/usuarios/roles">Volver a Roles</Link>
         </>
       ) : (
-        <>
-          <h1>{rol.message}</h1>
-        </>
+        <AccesoDenegado />
       )}
-      <Link href="/usuarios/roles">Volver a Roles</Link>
     </div>
   );
 }

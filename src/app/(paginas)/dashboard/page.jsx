@@ -1,12 +1,18 @@
-'use client'
+import getSession from '@/libs/session';
 
-import { useSession } from 'next-auth/react';
+export default async function Dashboard() {
+  const session = await getSession();
 
-export default function Dashboard() {
-  // datos de la sesion
-  const { data: session, status } = useSession();
-
-  console.log(session, status);
-
-  return <div>panel de control</div>;
+  return (
+    <div>
+      panel de control
+      {session && (
+        <>
+          <h1>Bienvenido {session.nombre}</h1>
+          <p>Correo: {session.email}</p>
+          <h3>Con el Rol: {session.id_rol} </h3>
+        </>
+      )}
+    </div>
+  );
 }

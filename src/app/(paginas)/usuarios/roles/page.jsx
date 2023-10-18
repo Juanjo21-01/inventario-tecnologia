@@ -2,6 +2,8 @@ import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
+import getSession from '@/libs/session';
+import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerRoles = async () =>
   prisma.rol.findMany({
@@ -14,6 +16,7 @@ const obtenerRoles = async () =>
 
 export default async function roles() {
   const roles = await obtenerRoles();
+  const session = await getSession();
 
   // listado de roles para la tabla
   const encabezado =
@@ -36,11 +39,17 @@ export default async function roles() {
 
   return (
     <div>
-      <Link href="/usuarios">Usuarios</Link>
+      {session.id_rol !== 3 ? (
+        <>
+          <Link href="/usuarios">Usuarios</Link>
 
-      <h2>Roles de los usuarios</h2>
-      <Formulario campos={campos} pathname={pathname} />
-      <Tabla thead={encabezado} tbody={roles} />
+          <h2>Roles de los usuarios</h2>
+          <Formulario campos={campos} pathname={pathname} />
+          <Tabla thead={encabezado} tbody={roles} />
+        </>
+      ) : (
+        <AccesoDenegado />
+      )}
     </div>
   );
 }
