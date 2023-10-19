@@ -2,6 +2,8 @@ import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
+import { obtenerStockProductos } from '@/libs/graficas';
+import Mensajes from '@/components/Mensajes';
 
 const obtenerProductos = async () =>
   await prisma.producto.findMany({
@@ -29,6 +31,7 @@ export default async function paginaProductos() {
   const categorias = await obtenerCategorias();
   const proveedores = await obtenerProveedores();
   const estados = await obtenerEstados();
+  const stock = await obtenerStockProductos();
 
   // quitar datos innecesarios
   productos.forEach((producto) => {
@@ -103,6 +106,8 @@ export default async function paginaProductos() {
         tbody={productos}
         nombresRelaciones={nombresRelaciones}
       />
+
+      <Mensajes informacion={stock} />
     </div>
   );
 }

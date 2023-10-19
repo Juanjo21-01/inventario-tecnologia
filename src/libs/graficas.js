@@ -154,10 +154,32 @@ export const obtenerEstados = async () => {
   return datos;
 };
 
-export const obtenerStockProductos = async () =>
-  await prisma.producto.findMany({
+export const obtenerStockProductos = async () => {
+  const stock = await prisma.producto.findMany({
     select: {
       nombre: true,
       stock: true,
     },
   });
+
+  const datos = {
+    advertencia: [],
+    peligro: [],
+  };
+  // guardar los datos en el array con un objeto para los productos con el stock mayor a 10 y otro con el stock menor a 10
+  stock.forEach((producto) => {
+    if (producto.stock <= 5) {
+      datos.peligro.push({
+        nombre: producto.nombre,
+        stock: producto.stock,
+      });
+    } else if (producto.stock <= 10) {
+      datos.advertencia.push({
+        nombre: producto.nombre,
+        stock: producto.stock,
+      });
+    }
+  });
+
+  return datos;
+};

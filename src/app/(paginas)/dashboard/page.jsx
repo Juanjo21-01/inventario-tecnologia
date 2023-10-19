@@ -8,6 +8,7 @@ import {
   obtenerEstados,
   obtenerStockProductos,
 } from '@/libs/graficas';
+import Mensajes from '@/components/Mensajes';
 
 export default async function Dashboard() {
   const datos = await obtenerDatos();
@@ -35,6 +36,8 @@ export default async function Dashboard() {
       <br />
       <EstadosGrafica informacion={estados} />
       <br />
+
+      <Mensajes informacion={stock}/>
     </div>
   );
 }
