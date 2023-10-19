@@ -6,7 +6,7 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerRoles = async () =>
-  prisma.rol.findMany({
+  await prisma.rol.findMany({
     select: {
       id: true,
       nombre: true,

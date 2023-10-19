@@ -4,11 +4,13 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerCategorias = async () =>
-  prisma.categoriaProductos.findMany({ select: { id: true, nombre: true } });
+  await prisma.categoriaProductos.findMany({
+    select: { id: true, nombre: true },
+  });
 const obtenerProveedores = async () =>
-  prisma.proveedor.findMany({ select: { id: true, nombre: true } });
+  await prisma.proveedor.findMany({ select: { id: true, nombre: true } });
 const obtenerEstados = async () =>
-  prisma.estado.findMany({ select: { id: true, nombre: true } });
+  await prisma.estado.findMany({ select: { id: true, nombre: true } });
 const obtenerProducto = async (id) =>
   prisma.producto.findUnique({
     where: { id: Number(id) },

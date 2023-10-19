@@ -4,7 +4,7 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerCategoria = async (id) =>
-  prisma.categoriaProductos.findUnique({
+  await prisma.categoriaProductos.findUnique({
     where: {
       id: Number(id),
     },

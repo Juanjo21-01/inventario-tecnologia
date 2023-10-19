@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
 
 const obtenerProductos = async () =>
-  prisma.producto.findMany({
+  await prisma.producto.findMany({
     select: {
       id: true,
       nombre: true,
@@ -16,11 +16,13 @@ const obtenerProductos = async () =>
     },
   });
 const obtenerCategorias = async () =>
-  prisma.categoriaProductos.findMany({ select: { id: true, nombre: true } });
+  await prisma.categoriaProductos.findMany({
+    select: { id: true, nombre: true },
+  });
 const obtenerProveedores = async () =>
-  prisma.proveedor.findMany({ select: { id: true, nombre: true } });
+  await prisma.proveedor.findMany({ select: { id: true, nombre: true } });
 const obtenerEstados = async () =>
-  prisma.estado.findMany({ select: { id: true, nombre: true } });
+  await prisma.estado.findMany({ select: { id: true, nombre: true } });
 
 export default async function paginaProductos() {
   const productos = await obtenerProductos();

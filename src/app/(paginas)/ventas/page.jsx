@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
 
 const obtenerVentas = async () =>
-  prisma.venta.findMany({
+  await prisma.venta.findMany({
     select: {
       id: true,
       fecha: true,
@@ -12,7 +12,7 @@ const obtenerVentas = async () =>
     },
   });
 const obtenerEstados = async () =>
-  prisma.estado.findMany({ select: { id: true, nombre: true } });
+  await prisma.estado.findMany({ select: { id: true, nombre: true } });
 
 export default async function paginaVentas() {
   const ventas = await obtenerVentas();

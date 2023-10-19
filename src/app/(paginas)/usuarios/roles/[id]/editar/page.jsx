@@ -4,7 +4,7 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerRol = async (id) =>
-  prisma.rol.findUnique({
+  await prisma.rol.findUnique({
     where: {
       id: Number(id),
     },

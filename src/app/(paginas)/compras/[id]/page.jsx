@@ -12,7 +12,6 @@ export default async function informacionCompra({ params: { id } }) {
   const proveedor = compra.proveedor;
   const estado = compra.estado;
   const detalle = compra.DetalleCompra;
-  console.log(detalle);
 
   return (
     <div>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
 
 const obtenerEstados = async () =>
-  prisma.estado.findMany({
+  await prisma.estado.findMany({
     select: {
       id: true,
       nombre: true,
@@ -32,7 +32,6 @@ export default async function paginaEstados() {
   };
 
   const pathname = '/estados';
-
 
   return (
     <div>

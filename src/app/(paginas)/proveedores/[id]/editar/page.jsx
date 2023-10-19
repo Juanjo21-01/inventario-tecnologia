@@ -4,7 +4,7 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerProveedores = async (id) =>
-  prisma.proveedor.findUnique({
+  await prisma.proveedor.findUnique({
     where: {
       id: Number(id),
     },

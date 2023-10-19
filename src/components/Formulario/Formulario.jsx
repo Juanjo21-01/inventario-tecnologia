@@ -292,9 +292,9 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
     console.log('AGREGAR AL DETALLE');
 
     if (
-      formulario.id_producto === '' ||
-      formulario.cantidad === 0 ||
-      formulario.precio === 0
+      formulario.id_producto == 0 ||
+      formulario.cantidad == 0 ||
+      formulario.precio == 0
     ) {
       alert('Seleccione un producto, una cantidad y un precio');
       return;
@@ -318,14 +318,6 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
       ...formulario,
       Detalle: [...detalles, detalle],
       total: total + totalIngresado,
-    });
-
-    // RESETEAR CAMPOS
-    setFormulario({
-      ...formulario,
-      id_producto: '',
-      cantidad: 0,
-      precio: 0,
     });
   };
 

@@ -6,7 +6,7 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerUsuarios = async () =>
-  prisma.usuario.findMany({
+  await prisma.usuario.findMany({
     select: {
       id: true,
       nombre: true,
@@ -16,7 +16,7 @@ const obtenerUsuarios = async () =>
   });
 
 const obtenerRoles = async () =>
-  prisma.rol.findMany({
+  await prisma.rol.findMany({
     select: {
       id: true,
       nombre: true,

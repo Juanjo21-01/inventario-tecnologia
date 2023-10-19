@@ -4,7 +4,7 @@ import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
 
 const obtenerEstado = async (id) =>
-  prisma.estado.findUnique({
+  await prisma.estado.findUnique({
     where: {
       id: Number(id),
     },

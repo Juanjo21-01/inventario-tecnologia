@@ -1,58 +1,41 @@
 'use client';
 
-import {
-  BadgeDelta,
-  Card,
-  Grid,
-  DeltaType,
-  Flex,
-  Metric,
-  ProgressBar,
-  Text,
-} from '@tremor/react';
+import { Card, Grid, Flex, Metric, ProgressBar, Text } from '@tremor/react';
 
 const Tarjetas = ({ informacion }) => {
-  let ganancia = informacion.totalVentas - informacion.totalCompras;
+  let compras = informacion.totalCompras || 0;
+  let ventas = informacion.totalVentas || 0;
 
-  const progresoCompras = (informacion.totalCompras * 100) / 50000;
-  const progresoVentas = (informacion.totalVentas * 100) / 100000;
+  let ganancia = ventas - compras;
+
+  const progresoCompras = (compras * 100) / 50000;
+  const progresoVentas = (ventas * 100) / 100000;
   const progresoGanancias = (ganancia * 100) / 150000;
 
   ganancia = `Q. ${ganancia.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
 
+  compras = `Q. ${compras.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
 
-    informacion.totalCompras = `Q. ${informacion.totalCompras
-    .toFixed(2)
-    .replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-
-  informacion.totalVentas = `Q. ${informacion.totalVentas
-    .toFixed(2)
-    .replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+  ventas = `Q. ${ventas.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
 
   const datos = [
     {
       title: 'Compras',
-      metric: `${informacion.totalCompras}`,
+      metric: `${compras}`,
       progress: progresoCompras,
       target: 'Q. 50,000',
-      delta: '13.2%',
-      deltaType: 'moderateIncrease',
     },
     {
       title: 'Ventas',
-      metric: `${informacion.totalVentas}`,
+      metric: `${ventas}`,
       progress: progresoVentas,
       target: 'Q. 100,000',
-      delta: '23.9%',
-      deltaType: 'increase',
     },
     {
       title: 'Ganancias',
       metric: `${ganancia}`,
       progress: progresoGanancias,
       target: 'Q. 150,000',
-      delta: '10.1%',
-      deltaType: 'moderateDecrease',
     },
   ];
 
@@ -65,7 +48,6 @@ const Tarjetas = ({ informacion }) => {
               <Text>{item.title}</Text>
               <Metric className="truncate">{item.metric}</Metric>
             </div>
-            <BadgeDelta deltaType={item.deltaType}>{item.delta}</BadgeDelta>
           </Flex>
           <Flex className="mt-4 space-x-2">
             <Text className="truncate">{`${item.progress}% (${item.metric})`}</Text>

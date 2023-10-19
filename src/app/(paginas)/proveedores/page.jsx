@@ -3,7 +3,7 @@ import Tabla from '@/components/Tabla/Tabla';
 import { prisma } from '@/libs/prisma';
 
 const obtenerProveedores = async () =>
-  prisma.proveedor.findMany({
+  await prisma.proveedor.findMany({
     select: {
       id: true,
       nombre: true,
@@ -16,7 +16,7 @@ const obtenerProveedores = async () =>
 
 export default async function paginaProveedores() {
   const proveedores = await obtenerProveedores();
-  
+
   // listado de proveedores para la tabla
   const encabezado = proveedores.length > 0 ? Object.keys(proveedores[0]) : [];
 

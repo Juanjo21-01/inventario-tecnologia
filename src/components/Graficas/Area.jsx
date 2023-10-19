@@ -1,48 +1,25 @@
 'use client';
+
 import { Card, Title, AreaChart } from '@tremor/react';
-const chartdata = [
-  {
-    date: 'Jan 22',
-    SemiAnalysis: 2890,
-    'The Pragmatic Engineer': 2338,
-  },
-  {
-    date: 'Feb 22',
-    SemiAnalysis: 2756,
-    'The Pragmatic Engineer': 2103,
-  },
-  {
-    date: 'Mar 22',
-    SemiAnalysis: 3322,
-    'The Pragmatic Engineer': 2194,
-  },
-  {
-    date: 'Apr 22',
-    SemiAnalysis: 3470,
-    'The Pragmatic Engineer': 2108,
-  },
-  {
-    date: 'May 22',
-    SemiAnalysis: 3475,
-    'The Pragmatic Engineer': 1812,
-  },
-  {
-    date: 'Jun 22',
-    SemiAnalysis: 3129,
-    'The Pragmatic Engineer': 1726,
-  },
-];
-const valueFormatter = (number) =>
-  `$ ${new Intl.NumberFormat('us').format(number).toString()}`;
-const Area = () => {
+
+const Area = ({ informacion }) => {
+  const chartdata = informacion.map((item) => ({
+    Fecha: item.Fecha,
+    Compras: item.Compras,
+    Ventas: item.Ventas,
+  }));
+
+  const valueFormatter = (number) =>
+    `Q ${new Intl.NumberFormat('us').format(number).toString()}`;
+
   return (
     <Card>
-      <Title>Newsletter revenue over time (USD)</Title>
+      <Title>Ingresos y Gastos por Mes (Quetzales)</Title>
       <AreaChart
-        className="h-72 mt-4"
+        className="mt-4 h-72"
         data={chartdata}
-        index="date"
-        categories={['SemiAnalysis', 'The Pragmatic Engineer']}
+        index="Fecha"
+        categories={['Compras', 'Ventas']}
         colors={['indigo', 'cyan']}
         valueFormatter={valueFormatter}
       />

@@ -2,7 +2,7 @@ import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
 
 const obtenerProductos = async () =>
-  prisma.producto.findMany({ select: { id: true, nombre: true } });
+  await prisma.producto.findMany({ select: { id: true, nombre: true } });
 
 export default async function registrarVenta() {
   const productos = await obtenerProductos();

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
 
 const obtenerCategorias = async () =>
-  prisma.categoriaProductos.findMany({
+  await prisma.categoriaProductos.findMany({
     select: {
       id: true,
       nombre: true,
