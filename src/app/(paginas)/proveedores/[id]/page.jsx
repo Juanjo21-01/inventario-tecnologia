@@ -25,11 +25,7 @@ export default async function informacionProveedor({ params: { id } }) {
           <p>Fecha de Creación: {proveedor.createdAt}</p>
 
           <h2>Productos del Proveedor: {proveedor.nombre}</h2>
-          {productos.length > 0 ? (
-            <Tabla thead={encabezadoProductos} tbody={productos} />
-          ) : (
-            <p>No hay productos con este proveedor</p>
-          )}
+          <Tabla thead={encabezadoProductos} tbody={productos} />
         </>
       ) : (
         <>

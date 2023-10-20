@@ -26,11 +26,7 @@ export default async function informacionCategoria({ params: { id } }) {
           <p>Fecha de Creación: {categoria.createdAt}</p>
 
           <h2>Productos</h2>
-          {productos.length > 0 ? (
-            <Tabla thead={encabezadoProductos} tbody={productos} />
-          ) : (
-            <p>No hay productos con esta categoria</p>
-          )}
+          <Tabla thead={encabezadoProductos} tbody={productos} />
         </>
       ) : (
         <>

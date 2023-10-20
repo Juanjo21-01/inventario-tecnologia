@@ -9,7 +9,6 @@ const getEstado = async (id) => {
 
 export default async function informacionEstado({ params: { id } }) {
   const estado = await getEstado(id);
-
   const productos = estado.Producto || [];
   const compras = estado.Compra || [];
   const ventas = estado.Venta || [];
@@ -31,25 +30,13 @@ export default async function informacionEstado({ params: { id } }) {
           <p>Fecha de Creación: {estado.createdAt}</p>
 
           <h2>Productos</h2>
-          {productos.length > 0 ? (
-            <Tabla thead={encabezadoProductos} tbody={productos} />
-          ) : (
-            <p>No hay productos con este estado</p>
-          )}
+          <Tabla thead={encabezadoProductos} tbody={productos} />
 
           <h2>Compras</h2>
-          {compras.length > 0 ? (
-            <Tabla thead={encabezadoCompras} tbody={compras} />
-          ) : (
-            <p>No hay compras con este estado</p>
-          )}
+          <Tabla thead={encabezadoCompras} tbody={compras} />
 
           <h2>Ventas</h2>
-          {ventas.length > 0 ? (
-            <Tabla thead={encabezadoVentas} tbody={ventas} />
-          ) : (
-            <p>No hay ventas con este estado</p>
-          )}
+          <Tabla thead={encabezadoVentas} tbody={ventas} />
         </>
       ) : (
         <>
