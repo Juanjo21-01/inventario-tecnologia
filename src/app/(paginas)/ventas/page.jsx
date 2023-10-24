@@ -33,10 +33,10 @@ export default async function paginaVentas() {
   };
 
   return (
-    <div>
-      <h2>listado de Ventas</h2>
+    <div className='mt-5'>
+      <h2 className='text-[#122e40] text-[32px] my-4'>listado de Ventas</h2>
 
-      <Link href="/ventas/registrar">Registrar Nueva Venta</Link>
+      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="/ventas/registrar">Registrar Nueva Venta</Link>
 
       <Tabla
         thead={encabezado}

@@ -95,9 +95,11 @@ export default async function paginaProductos() {
   const pathname = '/productos';
   return (
     <div>
-      <Link href="productos/categoria">Categorias</Link>
-      <Link href="estados">Estados</Link>
-      <h2>Listado de Productos</h2>
+      <div className='flex felx-row gap-6 my-5'>
+      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="productos/categoria">Categorias</Link>
+      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="estados">Estados</Link>
+      </div>
+      <h2 className='text-[#122e40] text-[32px] my-4'>Listado de Productos</h2>
 
       <Formulario campos={campos} pathname={pathname} />
 

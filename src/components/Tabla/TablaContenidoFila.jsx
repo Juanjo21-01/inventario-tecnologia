@@ -36,12 +36,24 @@ const TablaContenidoFila = ({ item }) => {
   };
 
   return (
-    <tr>
-      {Object.keys(item).map((llave, indice) => (
-        <td key={indice} onClick={verContenido}>
-          {item[llave]}
-        </td>
-      ))}
+    <tr className='flex flex-row items-center justify-around border-b-2'>
+ {Object.keys(item).map((llave, indice) => {
+  const contenido = item[llave];
+
+  // Verificar si el contenido es un número de uno o dos dígitos
+  const esNumeroDeUnoOdosDigitos = /^(\d{1,2})$/.test(contenido);
+
+  if (esNumeroDeUnoOdosDigitos) {
+    return null; // No renderizar nada si es un número de uno o dos dígitos
+  } else {
+    // Renderizar el elemento <td> si no es un número de uno o dos dígitos
+    return (
+      <td className='text-[20px] text-[#333333] ' key={indice} onClick={verContenido}>
+        {contenido}
+      </td>
+    );
+  }
+})}
       <td>
         {/* no mostrar botón de editar y eliminar si es compra o venta */}
         {nombreURL === '/compras' || nombreURL === '/ventas' ? null : (

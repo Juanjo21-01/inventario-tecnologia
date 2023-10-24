@@ -34,9 +34,9 @@ export default async function categoriaProductos() {
   const pathname = '/productos/categoria';
 
   return (
-    <div>
-      <Link href="/productos">Productos</Link>
-      <h2>Categoria de Productos</h2>
+    <div className='mt-5'>
+      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] 'href="/productos">Productos</Link>
+      <h2 className='text-[#122e40] text-[32px] my-4'>Categoria de Productos</h2>
 
       <Formulario campos={campos} pathname={pathname} />
 
