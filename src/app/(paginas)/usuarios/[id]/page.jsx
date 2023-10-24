@@ -32,18 +32,10 @@ export default async function usuario({ params: { id } }) {
               <h3>Rol: {rol}</h3>
 
               <h2>Ventas</h2>
-              {ventas.length > 0 ? (
-                <Tabla thead={encabezadoVentas} tbody={ventas} />
-              ) : (
-                <p>No hay ventas registradas con este usuario</p>
-              )}
+              <Tabla thead={encabezadoVentas} tbody={ventas} />
 
               <h2>Compras</h2>
-              {compras.length > 0 ? (
-                <Tabla thead={encabezadoCompras} tbody={compras} />
-              ) : (
-                <p>No hay compras registradas con este usuario</p>
-              )}
+              <Tabla thead={encabezadoCompras} tbody={compras} />
             </>
           ) : (
             <h1>{usuario.message}</h1>

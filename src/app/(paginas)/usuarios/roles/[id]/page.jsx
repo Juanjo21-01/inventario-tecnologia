@@ -32,11 +32,7 @@ export default async function rol({ params: { id } }) {
               <p>Fecha de Creación: {rol.createdAt}</p>
 
               <h2>Usuarios</h2>
-              {usuarios.length > 0 ? (
-                <Tabla thead={encabezadoUsuarios} tbody={usuarios} />
-              ) : (
-                <p>No hay usuarios con este rol</p>
-              )}
+              <Tabla thead={encabezadoUsuarios} tbody={usuarios} />
             </>
           ) : (
             <>
