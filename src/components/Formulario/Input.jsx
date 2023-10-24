@@ -11,7 +11,7 @@ const Input = ({
   return (
     <>
       {campo.etiqueta === 'input' && (
-        <input
+        <input className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
           type={campo.type}
           name={atributo}
           id={atributo}
@@ -23,7 +23,7 @@ const Input = ({
       )}
 
       {campo.etiqueta === 'textarea' && (
-        <textarea
+        <textarea className='rounded-md w-[250px] h-[40px] bg-[#e0e0e0] text-center'
           name={atributo}
           id={atributo}
           value={valor}
@@ -33,7 +33,7 @@ const Input = ({
       )}
 
       {campo.etiqueta === 'select' && (
-        <select
+        <select className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
           name={atributo}
           id={atributo}
           onChange={handleChange}

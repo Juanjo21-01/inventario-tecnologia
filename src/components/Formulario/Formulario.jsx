@@ -344,13 +344,13 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='flex flex-col justify-center items-center bg-[#fff] py-12 px-20 mt-0 my-auto gap-6' onSubmit={handleSubmit}>
       {Object.keys(formulario).map((atributo) => {
         return (
-          <div key={atributo}>
+          <div className='flex flex-row gap-10' key={atributo}>
             <Label atributo={atributo} />
 
-            <Input
+            <Input 
               atributo={atributo}
               campo={campos[atributo]}
               formulario={formulario}
@@ -365,26 +365,26 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
       {/* DETALLE DE COMPRA O VENTA */}
       {detalle ? (
         <>
-          <button type="button" onClick={handleClick}>
+          <button className='rounded-xl bg-[#35cdce] text-white w-[100px] h-[50px] ' type="button" onClick={handleClick}>
             Agregar
           </button>
 
-          <h3>Detalle</h3>
+          
 
-          <table>
+          <table className='w-[800px]'>
             <thead>
-              <tr>
-                <th>Acciones</th>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Sub Total</th>
+              <tr className='flex flex-row item-center justify-around bg-[#35cdce] rounded '>
+                <th className='text-[16px] text-white'>Acciones</th>
+                <th className='text-[16px] text-white'>Producto</th>
+                <th className='text-[16px] text-white'>Cantidad</th>
+                <th className='text-[16px] text-white'>Precio</th>
+                <th className='text-[16px] text-white'>Sub Total</th>
               </tr>
             </thead>
 
             <tbody>
               {detalles.map((detalle, index) => (
-                <tr key={index}>
+                <tr className='flex flex-row item-center justify-around border-b-2'key={index}>
                   <td>
                     <button
                       type="button"

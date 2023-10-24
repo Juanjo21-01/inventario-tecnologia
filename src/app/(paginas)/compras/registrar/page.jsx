@@ -62,7 +62,7 @@ export default async function registrarCompra() {
 
   return (
     <div>
-      <h1>Registrar Compra</h1>
+      <h1 className='text-[32px] text-[#122e40] my-10'>Registrar Compra</h1>
 
       <Formulario campos={campos} pathname={pathname} detalle={true} />
     </div>

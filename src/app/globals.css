@@ -22,6 +22,8 @@
     top: 0;
 } */
 
+body{background: #e7eff3;}
+
 .main:after {
     content: "";
     background-image: url("/assets/images/grid.svg");
@@ -63,7 +65,8 @@
     }
 }
 
-.app {
+.app  {
+    
     position: relative;
     display: flex;
     flex-direction: column;

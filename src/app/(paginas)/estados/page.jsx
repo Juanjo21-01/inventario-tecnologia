@@ -34,10 +34,10 @@ export default async function paginaEstados() {
   const pathname = '/estados';
 
   return (
-    <div>
-      <Link href="/productos">Productos</Link>
+    <div className='mt-5'>
+      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="/productos">Productos</Link>
 
-      <h2>Estados</h2>
+      <h2 className='text-[#122e40] text-[32px] my-4'>Estados</h2>
 
       <Formulario campos={campos} pathname={pathname} />
 

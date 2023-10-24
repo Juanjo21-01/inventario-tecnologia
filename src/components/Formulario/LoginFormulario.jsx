@@ -39,11 +39,11 @@ const LoginFormulario = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='flex flex-col items-center gap-6' onSubmit={handleSubmit}>
       {error && <div style={{ color: 'red', fontSize: '2rem' }}>{error}</div>}
 
-      <label htmlFor="email">Email</label>
-      <input
+      <label className='text-left w-full'  htmlFor="email">Email</label>
+      <input className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
         type="email"
         name="email"
         id="email"
@@ -53,8 +53,8 @@ const LoginFormulario = () => {
         onChange={handleChange}
       />
 
-      <label htmlFor="password">Contraseña</label>
-      <input
+      <label className='text-left w-full' htmlFor="password">Contraseña</label>
+      <input className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
         type="password"
         name="password"
         id="password"
@@ -63,7 +63,7 @@ const LoginFormulario = () => {
         onChange={handleChange}
       />
 
-      <button type="submit">Iniciar sesión</button>
+      <button className='rounded-xl w-full h-[50px] text-white bg-[#35cdce]' type="submit">Iniciar sesión</button>
     </form>
   );
 };

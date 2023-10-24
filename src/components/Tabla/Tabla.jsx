@@ -5,7 +5,7 @@ const Tabla = ({ thead, tbody, nombresRelaciones }) => {
   return (
     <>
       {tbody.length > 0 ? (
-        <table style={{ border: '2px solid red', margin: '2rem' }}>
+        <table className='bg-[#fffffe] rounded-xl mt-20 flex flex-col'>>
           <TablaEncabezado thead={thead} />
 
           <TablaContenido tbody={tbody} nombresRelaciones={nombresRelaciones} />
