@@ -1,16 +1,25 @@
 import LoginFormulario from '@/components/Formulario/LoginFormulario';
-import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className='flex flex-col my-0 mx-auto bg-white justify-around items-center rounded-md h-[600px] w-[400px]'>
+    <section className="flex items-center justify-center h-full gap-10 bg-gray-950">
+      <article className="flex flex-col items-center justify-center h-full p-3">
+        <Image
+          src="/titulo.svg"
+          alt="Titulo"
+          width={700}
+          height={700}
+          className="object-fill"
+        />
+      </article>
 
-      <div className='flex flex-col gap-4'>
-      <h1 className='text-[32px] text-[#122e40]'>Gestión de Inventarios</h1>
-
-      <h2 className='text-[20px] text-[#122e40]'>Empresa {'"Tecnología en un solo lugar"'}</h2>
-      </div>
-      <LoginFormulario />
-    </div>
+      <article className="flex flex-col items-center justify-center w-1/3 h-full">
+        <h2 className="text-3xl italic font-semibold text-teal-500 mb-3">
+          Iniciar Sesión
+        </h2>
+        <LoginFormulario />
+      </article>
+    </section>
   );
 }

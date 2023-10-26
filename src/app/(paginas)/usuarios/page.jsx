@@ -68,11 +68,19 @@ export default async function paginaUsuarios() {
   const pathname = '/auth/signup';
 
   return (
-    <div>
+    <>
       {session.id_rol !== 3 ? (
         <>
-          <Link href="usuarios/roles">Roles</Link>
-          <h2>Usuarios Registrados</h2>
+          <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+            Usuarios Registrados
+          </h1>
+
+          <Link
+            className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+            href="usuarios/roles"
+          >
+            Roles
+          </Link>
 
           <Formulario campos={campos} pathname={pathname} />
 
@@ -85,6 +93,6 @@ export default async function paginaUsuarios() {
       ) : (
         <AccesoDenegado />
       )}
-    </div>
+    </>
   );
 }

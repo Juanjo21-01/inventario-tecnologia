@@ -2,6 +2,8 @@ import Formulario from '@/components/Formulario/Formulario';
 import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 import { prisma } from '@/libs/prisma';
+import EstadosGrafica from '@/components/Graficas/EstadosGrafica';
+import { obtenerEstados as obtener } from '@/libs/graficas';
 
 const obtenerEstados = async () =>
   await prisma.estado.findMany({
@@ -14,6 +16,7 @@ const obtenerEstados = async () =>
 
 export default async function paginaEstados() {
   const estados = await obtenerEstados();
+  const estadosGrafica = await obtener();
 
   // listado de estados para la tabla
   const encabezado = estados.length > 0 ? Object.keys(estados[0]) : [];
@@ -34,14 +37,40 @@ export default async function paginaEstados() {
   const pathname = '/estados';
 
   return (
-    <div className='mt-5'>
-      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="/productos">Productos</Link>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+        Estados
+      </h1>
 
-      <h2 className='text-[#122e40] text-[32px] my-4'>Estados</h2>
+      <section className="mb-5">
+        <Link
+          className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+          href="/productos"
+        >
+          Productos
+        </Link>
+        <Link
+          className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+          href="/compras"
+        >
+          Compras
+        </Link>
+        <Link
+          className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+          href="/ventas"
+        >
+          Ventas
+        </Link>
+      </section>
 
-      <Formulario campos={campos} pathname={pathname} />
+      <section className="flex flex-row justify-around">
+        <article>
+          <Formulario campos={campos} pathname={pathname} />
+        </article>
+        <EstadosGrafica informacion={estadosGrafica} />
+      </section>
 
       <Tabla thead={encabezado} tbody={estados} />
-    </div>
+    </>
   );
 }

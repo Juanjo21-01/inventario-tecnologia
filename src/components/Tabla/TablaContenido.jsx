@@ -16,7 +16,7 @@ const TablaContenido = ({ tbody, nombresRelaciones }) => {
   }
 
   return (
-    <tbody>
+    <tbody className="text-sm">
       {tbody.map((item, index) => (
         <TablaContenidoFila key={index} item={item} />
       ))}

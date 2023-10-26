@@ -38,18 +38,26 @@ export default async function roles() {
   const pathname = '/usuarios/roles';
 
   return (
-    <div>
+    <>
       {session.id_rol !== 3 ? (
         <>
-          <Link href="/usuarios">Usuarios</Link>
+          <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+            Roles de los usuarios
+          </h1>
 
-          <h2>Roles de los usuarios</h2>
+          <Link
+            className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+            href="/usuarios"
+          >
+            Usuarios
+          </Link>
+
           <Formulario campos={campos} pathname={pathname} />
           <Tabla thead={encabezado} tbody={roles} />
         </>
       ) : (
         <AccesoDenegado />
       )}
-    </div>
+    </>
   );
 }

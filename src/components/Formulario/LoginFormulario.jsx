@@ -39,31 +39,51 @@ const LoginFormulario = () => {
   };
 
   return (
-    <form className='flex flex-col items-center gap-6' onSubmit={handleSubmit}>
-      {error && <div style={{ color: 'red', fontSize: '2rem' }}>{error}</div>}
+    <form
+      className="flex flex-col w-full rounded shadow-md bg-slate-300 p-7"
+      onSubmit={handleSubmit}
+    >
+      {error && (
+        <p className="p-4 text-2xl font-bold text-center text-rose-500">
+          {error}
+        </p>
+      )}
 
-      <label className='text-left w-full'  htmlFor="email">Email</label>
-      <input className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
+      <label className="mb-1 font-bold text-gray-700" htmlFor="email">
+        Correo Electrónico
+      </label>
+      <input
+        className="w-full p-3 mb-3 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
         type="email"
         name="email"
         id="email"
+        placeholder="Ingresa tu correo electrónico"
         required
         autoFocus
         value={form.email}
         onChange={handleChange}
       />
 
-      <label className='text-left w-full' htmlFor="password">Contraseña</label>
-      <input className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
+      <label className="mb-1 font-bold text-gray-700" htmlFor="password">
+        Contraseña
+      </label>
+      <input
+        className="w-full p-3 mb-3 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
         type="password"
         name="password"
         id="password"
+        placeholder="Ingresa tu contraseña"
         required
         value={form.password}
         onChange={handleChange}
       />
 
-      <button className='rounded-xl w-full h-[50px] text-white bg-[#35cdce]' type="submit">Iniciar sesión</button>
+      <button
+        className="px-4 py-2 mt-5 font-bold text-white transition duration-500 ease-in-out bg-teal-400 rounded-xl hover:bg-teal-500 focus:outline-none focus:shadow-outline"
+        type="submit"
+      >
+        Iniciar sesión
+      </button>
     </form>
   );
 };

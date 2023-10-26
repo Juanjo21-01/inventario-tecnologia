@@ -5,8 +5,8 @@ export default function PaginasLayout({ children }) {
     <>
       <Navegacion />
 
-      {children}
+      <section className="container mx-auto mt-5 w-11/12">{children}</section>
     </>
   );
 }
-``
+``;

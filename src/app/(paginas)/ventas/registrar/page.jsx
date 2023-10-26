@@ -48,10 +48,12 @@ export default async function registrarVenta() {
   const pathname = '/ventas';
 
   return (
-    <div>
-      <h1 className='text-[#122e40] text-[32px] my-4'>Registrar Venta</h1>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+        Registrar Venta
+      </h1>
 
       <Formulario campos={campos} pathname={pathname} detalle={true} />
-    </div>
+    </>
   );
 }

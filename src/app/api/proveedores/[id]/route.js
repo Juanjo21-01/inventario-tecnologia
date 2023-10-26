@@ -19,8 +19,6 @@ export async function GET(req, { params: { id } }) {
             nombre: true,
             precio: true,
             stock: true,
-            id_categoria: true,
-            id_estado: true,
           },
         },
       },

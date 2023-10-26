@@ -1,56 +1,82 @@
 import Link from 'next/link';
 import ButtonSignOut from './ButtonSignOut';
-import getSession from '@/libs/session'; 
-import logoinicio from '../assets/iconamoon_home-thin.png';
-import logoproductos from '../assets/teenyicons_computer-outline.png';
-import logocompras from '../assets/icons8_buy.png';
-import logoventas from '../assets/ic_outline-sell.png';
-import logoproveedores from '../assets/mingcute_user-5-line.png';
-import logoout from '../assets/gg_log-off.png';
-
+import getSession from '@/libs/session';
+import { FcHome } from 'react-icons/fc';
+import {
+  BsGrid,
+  BsCart3,
+  BsShop,
+  BsPersonWorkspace,
+  BsPeople,
+} from 'react-icons/bs';
 const Navegacion = async () => {
- const session = await getSession();
+  const session = await getSession();
 
   return (
-    
+    <nav className="flex flex-row justify-between px-8 shadow-xl bg-teal-500 mb-5 text-zinc-50 w-full items-center h-12 font-bold">
+      <Link
+        href="/dashboard"
+        className="text-2xl hover:bg-teal-600 rounded-md p-2 h-full transition duration-500 ease-in-out"
+      >
+        <FcHome className="inline" /> Inicio
+      </Link>
 
-    <nav className='flex flex-row justify-around bg-white w-full h-[80px] items-center'  >
-      <div className='flex flex-row items-center gap-6'>
-        <img src={logoinicio.src} alt="" className='w-[25px] h-[25px]'/> 
-      <Link href="/dashboard">Inicio</Link> 
-      </div>
+      <ul className="flex flex-row gap-x-3 text-xl h-full items-center">
+        <li>
+          <Link
+            href="/productos"
+            className=" hover:bg-teal-600 transition duration-500 ease-in-out rounded-md p-2.5"
+          >
+            <BsGrid className="inline" /> Productos
+          </Link>
+        </li>
 
-      <div className='flex flex-row items-center gap-6'>
-        <img src={logoproductos.src} alt="" className='w-[25px] h-[25px]'/>
-      <Link href="/productos">Productos</Link>
-      </div>
+        <li>
+          <Link
+            href="/compras"
+            className=" hover:bg-teal-600 transition duration-500 ease-in-out rounded-md p-2.5"
+          >
+            <BsCart3 className="inline" /> Compras
+          </Link>
+        </li>
 
-      <div className='flex flex-row items-center gap-6'>
-        <img src={logocompras.src} alt="" className='w-[25px] h-[25px]'/>
-      <Link href="/compras">Compras</Link>
-      </div>
+        <li>
+          <Link
+            href="/ventas"
+            className=" hover:bg-teal-600 transition duration-500 ease-in-out rounded-md p-2.5"
+          >
+            <BsShop className="inline" /> Ventas
+          </Link>
+        </li>
 
-      <div className='flex flex-row items-center gap-6'>
-        <img src={logoventas.src} alt=""  className='w-[25px] h-[25px]'/>
-      <Link href="/ventas">Ventas</Link>
-      </div>
+        <li>
+          <Link
+            href="/proveedores"
+            className=" hover:bg-teal-600 transition duration-500 ease-in-out rounded-md p-2.5"
+          >
+            <BsPeople className="inline" /> Proveedores
+          </Link>
+        </li>
 
-      <div className='flex flex-row items-center gap-6'>
-        <img src={logoproveedores.src} alt="" className='w-[25px] h-[25px]'/>
-      <Link href="/proveedores">Proveedores</Link>
-      </div>
-      {session && (
-        <>{session.id_rol !== 3 && <Link href="/usuarios">Usuarios</Link>}</>
-      )}
+        {session && (
+          <>
+            {session.id_rol !== 3 && (
+              <li>
+                <Link
+                  href="/usuarios"
+                  className=" hover:bg-teal-600 transition duration-500 ease-in-out rounded-md p-2.5"
+                >
+                  <BsPersonWorkspace className="inline" /> Usuarios
+                </Link>
+              </li>
+            )}
+          </>
+        )}
 
-      <div className='flex flex-row items-center gap-6'>
-      <img src={logoout.src} alt="" className='w-[25px] h-[25px]'/>
-      <ButtonSignOut />
-      </div>
+        <ButtonSignOut />
+      </ul>
     </nav>
   );
 };
 
 export default Navegacion;
-
-

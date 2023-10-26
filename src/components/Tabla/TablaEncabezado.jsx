@@ -9,14 +9,11 @@ const TablaEncabezado = ({ thead }) => {
   thead = thead.map((item) => item.charAt(0).toUpperCase() + item.slice(1));
 
   return (
-    <thead className=" bg-[#35cdce]">
-      <tr className="text-[20px] text-[#fff] flex flex-row items-center justify-around">
-     
-  {thead.map((item, index) => (
-    index !== 0 ? (
-      <th key={index}>{item}</th>
-    ) : null
-  ))}
+    <thead className="bg-teal-400 text-xl text-zinc-50 py-1">
+      <tr className="flex flex-row items-center justify-around">
+        {thead.map((item, index) =>
+          index !== 0 ? <th key={index}>{item}</th> : null
+        )}
 
         <th>Acciones</th>
       </tr>

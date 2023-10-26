@@ -13,7 +13,11 @@ const Label = ({ atributo }) => {
   // Convertir la primera letra en mayúscula
   atributo = atributo[0].toUpperCase() + atributo.slice(1);
 
-  return <label htmlFor={htmlForAtributo}>{atributo}</label>;
+  return (
+    <label htmlFor={htmlForAtributo} className="mb-1 text-sm font-semibold text-teal-500">
+      {atributo}
+    </label>
+  );
 };
 
 export default Label;

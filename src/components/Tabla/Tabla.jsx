@@ -5,13 +5,13 @@ const Tabla = ({ thead, tbody, nombresRelaciones }) => {
   return (
     <>
       {tbody.length > 0 ? (
-        <table className='bg-[#fffffe] rounded-xl mt-20 flex flex-col'>>
+        <table className="bg-zinc-50 shadow-xl mt-5 flex flex-col ">
           <TablaEncabezado thead={thead} />
 
           <TablaContenido tbody={tbody} nombresRelaciones={nombresRelaciones} />
         </table>
       ) : (
-        <p className="text-4xl font-bold text-center text-teal-600">
+        <p className="text-4xl font-bold text-center text-rose-500">
           No hay elementos
         </p>
       )}

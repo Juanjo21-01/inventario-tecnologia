@@ -33,16 +33,23 @@ export default async function paginaVentas() {
   };
 
   return (
-    <div className='mt-5'>
-      <h2 className='text-[#122e40] text-[32px] my-4'>listado de Ventas</h2>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-4">
+        Listado de Ventas
+      </h1>
 
-      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="/ventas/registrar">Registrar Nueva Venta</Link>
+      <Link
+        href="/ventas/registrar"
+        className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+      >
+        Registrar Nueva Venta
+      </Link>
 
       <Tabla
         thead={encabezado}
         tbody={ventas}
         nombresRelaciones={nombresRelaciones}
       />
-    </div>
+    </>
   );
 }

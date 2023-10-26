@@ -226,7 +226,6 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
       [name]: value,
     });
   };
-
   // MANEJAR CAMBIOS DE FOCO EN LOS INPUTS
   const handleBlur = (e) => {
     handleChange(e);
@@ -344,87 +343,121 @@ const Formulario = ({ campos, pathname, id, datosActualizar, detalle }) => {
   };
 
   return (
-    <form className='flex flex-col justify-center items-center bg-[#fff] py-12 px-20 mt-0 my-auto gap-6' onSubmit={handleSubmit}>
-      {Object.keys(formulario).map((atributo) => {
-        return (
-          <div className='flex flex-row gap-10' key={atributo}>
-            <Label atributo={atributo} />
+    <>
+      <h2 className="text-2xl font-bold text-center text-teal-500">
+        {id ? 'Actualizar' : 'Agregar'} Datos
+      </h2>
 
-            <Input 
-              atributo={atributo}
-              campo={campos[atributo]}
-              formulario={formulario}
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              errors={errors}
-            />
-          </div>
-        );
-      })}
+      <form
+        className="flex items-center flex-wrap gap-7 justify-center my-5 "
+        onSubmit={handleSubmit}
+      >
+        {Object.keys(formulario).map((atributo) => {
+          return (
+            <div className="px-3 py-2 text-center" key={atributo}>
+              <Label atributo={atributo} />
 
-      {/* DETALLE DE COMPRA O VENTA */}
-      {detalle ? (
-        <>
-          <button className='rounded-xl bg-[#35cdce] text-white w-[100px] h-[50px] ' type="button" onClick={handleClick}>
-            Agregar
-          </button>
+              <Input
+                atributo={atributo}
+                campo={campos[atributo]}
+                formulario={formulario}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                errors={errors}
+              />
+            </div>
+          );
+        })}
 
-          
+        {/* DETALLE DE COMPRA O VENTA */}
+        {detalle ? (
+          <>
+            <button
+              className="px-5 py-3 mt-5 font-bold text-white transition duration-500 ease-in-out bg-yellow-500 rounded-xl hover:bg-yellow-600 focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={handleClick}
+            >
+              Agregar
+            </button>
 
-          <table className='w-[800px]'>
-            <thead>
-              <tr className='flex flex-row item-center justify-around bg-[#35cdce] rounded '>
-                <th className='text-[16px] text-white'>Acciones</th>
-                <th className='text-[16px] text-white'>Producto</th>
-                <th className='text-[16px] text-white'>Cantidad</th>
-                <th className='text-[16px] text-white'>Precio</th>
-                <th className='text-[16px] text-white'>Sub Total</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {detalles.map((detalle, index) => (
-                <tr className='flex flex-row item-center justify-around border-b-2'key={index}>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => quitarElemento(detalle)}
-                    >
-                      Quitar
-                    </button>
-                  </td>
-                  <td>
-                    {campos.id_producto.informacion.map((producto) => {
-                      if (detalle.id_producto == producto.id)
-                        return producto.nombre;
-                    })}
-                  </td>
-                  <td>{detalle.cantidad}</td>
-                  <td>{detalle.precio}</td>
-                  <td>{detalle.cantidad * detalle.precio}</td>
+            <table className="w-full bg-zinc-50 shadow-xl my-5 flex flex-col ">
+              <thead className="text-xl py-1 bg-teal-400  text-zinc-50">
+                <tr className="flex flex-row item-center justify-around ">
+                  <th>Acciones</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Sub Total</th>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="4">Total</td>
-                <td>{total}</td>
-              </tr>
-            </tfoot>
-          </table>
+              </thead>
 
-          {detalles.length > 0 && <button type="submit">Crear</button>}
-        </>
-      ) : (
-        <>
-          {id ? (
-            <button type="submit">Actualizar</button>
-          ) : (
-            <button type="submit">Crear</button>
-          )}
-        </>
-      )}
-    </form>
+              <tbody>
+                {detalles.map((detalle, index) => (
+                  <tr
+                    className="flex flex-row justify-around border-b-2 item-center py-1"
+                    key={index}
+                  >
+                    <td>
+                      <button
+                        type="button"
+                        className="px-3 py-2 bg-rose-500 rounded-full text-zinc-50"
+                        onClick={() => quitarElemento(detalle)}
+                      >
+                        Quitar
+                      </button>
+                    </td>
+                    <td className="font-bold">
+                      {campos.id_producto.informacion.map((producto) => {
+                        if (detalle.id_producto == producto.id)
+                          return producto.nombre;
+                      })}
+                    </td>
+                    <td>{detalle.cantidad}</td>
+                    <td>{detalle.precio}</td>
+                    <td className="text-indigo-500 font-bold">
+                      {detalle.cantidad * detalle.precio}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="flex justify-center items-center font-bold text-rose-500 text-xl">
+                  <td colSpan="4">Total:</td>
+                  <td>{total}</td>
+                </tr>
+              </tfoot>
+            </table>
+
+            {detalles.length > 0 && (
+              <button
+                type="submit"
+                className="px-5 py-3 mt-5 font-semibold text-white transition duration-500 ease-in-out bg-teal-500 rounded-xl hover:bg-teal-600 focus:outline-none focus:shadow-outline"
+              >
+                Crear
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            {id ? (
+              <button
+                type="submit"
+                className="px-5 py-3 mt-5 font-bold text-white transition duration-500 ease-in-out bg-sky-500 rounded-xl hover:bg-sky-600 focus:outline-none focus:shadow-outline"
+              >
+                Actualizar
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="px-5 py-3 mt-5 font-semibold text-white transition duration-500 ease-in-out bg-teal-500 rounded-xl hover:bg-teal-600 focus:outline-none focus:shadow-outline"
+              >
+                Crear
+              </button>
+            )}
+          </>
+        )}
+      </form>
+    </>
   );
 };
 

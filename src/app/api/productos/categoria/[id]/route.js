@@ -15,8 +15,6 @@ export async function GET(req, { params: { id } }) {
             nombre: true,
             precio: true,
             stock: true,
-            id_proveedor: true,
-            id_estado: true,
           },
         },
       },

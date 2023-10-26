@@ -11,7 +11,8 @@ const Input = ({
   return (
     <>
       {campo.etiqueta === 'input' && (
-        <input className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
+        <input
+          className="w-full p-3 mb-1 border rounded shadow appearance-none h-7 leading-tight focus:outline-none focus:shadow-outline"
           type={campo.type}
           name={atributo}
           id={atributo}
@@ -23,7 +24,8 @@ const Input = ({
       )}
 
       {campo.etiqueta === 'textarea' && (
-        <textarea className='rounded-md w-[250px] h-[40px] bg-[#e0e0e0] text-center'
+        <textarea
+          className="w-full p-3 mb-3 border rounded shadow appearance-none h-15 leading-tight focus:outline-none focus:shadow-outline"
           name={atributo}
           id={atributo}
           value={valor}
@@ -33,7 +35,8 @@ const Input = ({
       )}
 
       {campo.etiqueta === 'select' && (
-        <select className='rounded-md w-[250px] h-[25px] bg-[#e0e0e0] text-center'
+        <select
+          className="w-full p-3 mb-3 border rounded shadow h-12 leading-tight focus:outline-none focus:shadow-outline"
           name={atributo}
           id={atributo}
           onChange={handleChange}
@@ -49,7 +52,7 @@ const Input = ({
       )}
 
       {errors[atributo] && (
-        <p style={{ fontSize: '1.2rem', color: "red" }}>{errors[atributo]}</p>
+        <p className="text-sm text-red-400 font-bold">{errors[atributo]}</p>
       )}
     </>
   );

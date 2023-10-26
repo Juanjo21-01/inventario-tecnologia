@@ -50,12 +50,14 @@ export default async function paginaProveedores() {
 
   const pathname = '/proveedores';
   return (
-    <div>
-      <h2 className='text-[#122e40] text-[32px] my-4'>Listado de Proveedores</h2>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+        Listado de Proveedores
+      </h1>
 
       <Formulario campos={campos} pathname={pathname} />
 
       <Tabla thead={encabezado} tbody={proveedores} />
-    </div>
+    </>
   );
 }

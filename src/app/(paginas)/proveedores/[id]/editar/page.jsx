@@ -2,6 +2,7 @@ import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
 import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
+import Link from 'next/link';
 
 const obtenerProveedores = async (id) =>
   await prisma.proveedor.findUnique({
@@ -51,10 +52,20 @@ export default async function editarProveedor({ params: { id } }) {
 
   const pathname = '/proveedores';
   return (
-    <div>
+    <>
       {session.id_rol !== 3 ? (
         <>
-          <h1>Editar Proveedor No. {id}</h1>
+          <h1 className="text-rose-500 text-4xl font-bold text-center mb-3">
+            Editar Proveedor No. {id}
+          </h1>
+
+          <Link
+            className="text-xl bg-rose-400 hover:bg-rose-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+            href="/proveedores"
+          >
+            Regresar
+          </Link>
+
           <Formulario
             id={id}
             campos={campos}
@@ -65,6 +76,6 @@ export default async function editarProveedor({ params: { id } }) {
       ) : (
         <AccesoDenegado />
       )}
-    </div>
+    </>
   );
 }

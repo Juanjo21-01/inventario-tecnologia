@@ -13,7 +13,7 @@ const Area = ({ informacion }) => {
     `Q ${new Intl.NumberFormat('us').format(number).toString()}`;
 
   return (
-    <Card>
+    <Card className="mb-5">
       <Title>Ingresos y Gastos por Mes (Quetzales)</Title>
       <AreaChart
         className="mt-4 h-72"

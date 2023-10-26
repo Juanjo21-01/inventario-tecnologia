@@ -1,11 +1,9 @@
 import getSession from '@/libs/session';
 import Tarjetas from '@/components/Graficas/Tarjetas';
 import Area from '@/components/Graficas/Area';
-import EstadosGrafica from '@/components/Graficas/EstadosGrafica';
 import {
   obtenerDatos,
   obtenerFechas,
-  obtenerEstados,
   obtenerStockProductos,
 } from '@/libs/graficas';
 import Mensajes from '@/components/Mensajes';
@@ -14,30 +12,25 @@ export default async function Dashboard() {
   const datos = await obtenerDatos();
   const session = await getSession();
   const fechas = await obtenerFechas();
-  const estados = await obtenerEstados();
   const stock = await obtenerStockProductos();
 
   return (
-    <div>
-      <h2 className="text-3xl font-bold text-center text-indigo-500">
+    <>
+      <h1 className="text-5xl font-bold text-center text-indigo-500">
         Panel de Control
-      </h2>
+      </h1>
 
       {session && (
-        <>
-          <h1>Bienvenido {session.nombre}</h1>
-          <p>Correo: {session.email}</p>
-          <h3>Con el Rol: {session.id_rol} </h3>
-        </>
+        <section className=" border rounded-xl m-5 p-2">
+          <h2 className="font-bold text-3xl">Bienvenido {session.nombre}</h2>
+          <p className="text-2xl">Correo: {session.email}</p>
+          <h3 className="text-xl">Con el Rol: {session.id_rol} </h3>
+        </section>
       )}
       <Tarjetas informacion={datos} />
-      <br />
       <Area informacion={fechas} />
-      <br />
-      <EstadosGrafica informacion={estados} />
-      <br />
 
-      <Mensajes informacion={stock}/>
-    </div>
+      <Mensajes informacion={stock} />
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import Tabla from '@/components/Tabla/Tabla';
+import Cards from '@/components/Cards/Cards';
 import Link from 'next/link';
 
 const getCategoria = async (id) => {
@@ -13,27 +13,53 @@ export default async function informacionCategoria({ params: { id } }) {
   const categoria = await getCategoria(id);
   const productos = categoria.Producto || [];
 
-  const encabezadoProductos =
-    productos.length > 0 ? Object.keys(productos[0]) : [];
-
   return (
     <div>
       {!categoria.message ? (
         <>
-          <h1>{categoria.nombre}</h1>
+          <h1 className="text-teal-500 text-4xl font-bold text-center mb-3">
+            Categoria:
+            <span className="text-rose-500"> {categoria.nombre} </span>
+          </h1>
 
-          <p>Descripción: {categoria.descripcion}</p>
-          <p>Fecha de Creación: {categoria.createdAt}</p>
+          <section className="flex justify-around items-center gap-5 flex-wrap">
+            <article>
+              <h2 className="text-2xl font-bold text-gray-600 mt-3">
+                Descripción:
+              </h2>
+              <p className="text-xl text-gray-500 p-3">
+                {categoria.descripcion}
+              </p>
+            </article>
 
-          <h2>Productos</h2>
-          <Tabla thead={encabezadoProductos} tbody={productos} />
+            <article>
+              <h2 className="text-2xl font-bold text-gray-600 mt-3">
+                Fecha de Creación:
+              </h2>
+              <p className="text-xl text-gray-500 p-3">
+                {new Date(categoria.createdAt).toLocaleDateString()}
+              </p>
+            </article>
+          </section>
+
+          <h2 className="text-3xl font-bold text-blue-500 mt-3">
+            Productos de {categoria.nombre}
+          </h2>
+          <Cards datos={productos} />
         </>
       ) : (
         <>
-          <h1>{categoria.message}</h1>
+          <h1 className="text-4xl text-rose-500 text-center font-bold">
+            {categoria.message}
+          </h1>
         </>
       )}
-      <Link href="/productos/categoria">Volver a Categorias</Link>
+      <Link
+        href="/productos/categoria"
+        className="px-4 py-2 bg-rose-500 rounded-md text-zinc-50 p-5 mx-5"
+      >
+        Volver a Categorias
+      </Link>
     </div>
   );
 }

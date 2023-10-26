@@ -8,6 +8,7 @@ const ButtonSignOut = () => {
       onClick={() => {
         signOut();
       }}
+      className="bg-zinc-50 text-teal-500 font-bold px-2 py-1 rounded-xl hover:bg-zinc-200 transition duration-300 ease-in-out"
     >
       Cerrar Sesión
     </button>

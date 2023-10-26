@@ -40,7 +40,7 @@ const Tarjetas = ({ informacion }) => {
   ];
 
   return (
-    <Grid numItemsMd={2} numItemsLg={3} className="gap-6">
+    <Grid numItemsMd={2} numItemsLg={3} className="gap-6 mb-5">
       {datos.map((item) => (
         <Card key={item.title}>
           <Flex alignItems="start">

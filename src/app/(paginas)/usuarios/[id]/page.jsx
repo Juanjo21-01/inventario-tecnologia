@@ -26,21 +26,47 @@ export default async function usuario({ params: { id } }) {
         <>
           {!usuario.message ? (
             <>
-              <h1> {usuario.nombre} </h1>
-              <p>Correo Electrónico: {usuario.email}</p>
-              <p>Fecha de Creación: {usuario.createdAt}</p>
-              <h3>Rol: {rol}</h3>
+              <h1 className="text-teal-500 text-4xl font-bold text-center mb-3">
+                Usuario:
+                <span className="text-rose-500"> {usuario.nombre} </span>
+              </h1>
 
-              <h2>Ventas</h2>
+              <section className="flex justify-around items-center gap-5 flex-wrap">
+                <article>
+                  <h2 className="text-2xl font-bold text-gray-600 mt-3">
+                    Correo Electrónico:
+                  </h2>
+                  <p className="text-xl text-gray-500 p-3">{usuario.email}</p>
+                </article>
+                <article>
+                  <h2 className="text-2xl font-bold text-gray-600 mt-3">
+                    Fecha de Creación:
+                  </h2>
+                  <p className="text-xl text-gray-500 p-3">
+                    {new Date(usuario.createdAt).toLocaleDateString()}
+                  </p>
+                </article>
+              </section>
+
+              <h3 className="text-teal-500 text-2xl font-bold">Rol: {rol}</h3>
+
+              <h2 className="text-3xl font-bold text-blue-500 mt-3">Ventas</h2>
               <Tabla thead={encabezadoVentas} tbody={ventas} />
 
-              <h2>Compras</h2>
+              <h2 className="text-3xl font-bold text-blue-500 mt-3">Compras</h2>
               <Tabla thead={encabezadoCompras} tbody={compras} />
             </>
           ) : (
-            <h1>{usuario.message}</h1>
+            <h1 className="text-4xl text-rose-500 text-center font-bold">
+              {usuario.message}
+            </h1>
           )}
-          <Link href="/usuarios">Volver a Usuarios</Link>
+          <Link
+            href="/usuarios"
+            className="px-4 py-2 bg-rose-500 rounded-md text-zinc-50 p-5 m-5"
+          >
+            Volver a Usuarios
+          </Link>
         </>
       ) : (
         <AccesoDenegado />

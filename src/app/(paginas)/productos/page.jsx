@@ -35,7 +35,8 @@ export default async function paginaProductos() {
 
   // quitar datos innecesarios
   productos.forEach((producto) => {
-    producto.precio = `$${producto.precio}`;
+    producto.precio = `Q.${producto.precio}`;
+    producto.stock = `${producto.stock} unidades`;
   });
 
   // listado de productos para la tabla
@@ -86,7 +87,6 @@ export default async function paginaProductos() {
       value: '',
     },
   };
-
   const nombresRelaciones = {
     id_estado: estados,
     id_proveedor: proveedores,
@@ -94,12 +94,23 @@ export default async function paginaProductos() {
   };
   const pathname = '/productos';
   return (
-    <div>
-      <div className='flex felx-row gap-6 my-5'>
-      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="productos/categoria">Categorias</Link>
-      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] ' href="estados">Estados</Link>
-      </div>
-      <h2 className='text-[#122e40] text-[32px] my-4'>Listado de Productos</h2>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+        Listado de Productos
+      </h1>
+
+      <Link
+        className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+        href="productos/categoria"
+      >
+        Categorias
+      </Link>
+      <Link
+        className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+        href="estados"
+      >
+        Estados
+      </Link>
 
       <Formulario campos={campos} pathname={pathname} />
 
@@ -110,6 +121,6 @@ export default async function paginaProductos() {
       />
 
       <Mensajes informacion={stock} />
-    </div>
+    </>
   );
 }

@@ -40,16 +40,23 @@ export default async function paginaCompras() {
   };
 
   return (
-    <div>
-      <h2 className='text-[32px] text-[#122e40]'>Listado de Compras</h2>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-4">
+        Listado de Compras
+      </h1>
 
-      <Link href="/compras/registrar" className='text-[24px] text-[#122e40] underline mt-10'>Registrar Nueva Compra</Link>
+      <Link
+        href="/compras/registrar"
+        className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+      >
+        Registrar Nueva Compra
+      </Link>
 
       <Tabla
         thead={encabezado}
         tbody={compras}
         nombresRelaciones={nombresRelaciones}
       />
-    </div>
+    </>
   );
 }

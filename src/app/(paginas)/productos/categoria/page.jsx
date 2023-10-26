@@ -34,13 +34,21 @@ export default async function categoriaProductos() {
   const pathname = '/productos/categoria';
 
   return (
-    <div className='mt-5'>
-      <Link className='rounded-full text-white py-[14px] px-[40px] bg-[#35cdce] 'href="/productos">Productos</Link>
-      <h2 className='text-[#122e40] text-[32px] my-4'>Categoria de Productos</h2>
+    <>
+      <h1 className="text-indigo-500 text-5xl font-bold text-center mb-3">
+        Categorias de los Productos
+      </h1>
+
+      <Link
+        className="text-2xl bg-teal-400 hover:bg-teal-500 px-2 py-1 rounded-lg text-center text-zinc-50 mx-4"
+        href="/productos"
+      >
+        Productos
+      </Link>
 
       <Formulario campos={campos} pathname={pathname} />
 
       <Tabla thead={encabezado} tbody={categorias} />
-    </div>
+    </>
   );
 }
