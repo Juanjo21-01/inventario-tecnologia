@@ -1,6 +1,6 @@
 export default function LoadingPage() {
   return (
-    <section className="flex flex-col items-center justify-center h-full gap-4">
+    <section className="flex flex-col items-center justify-center h-screen gap-4">
       <h1 className="text-5xl font-bold text-center text-teal-600">
         Cargando...
       </h1>

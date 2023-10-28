@@ -1,9 +1,65 @@
+import { prisma } from '@/libs/prisma';
 import Link from 'next/link';
 
 const getCompra = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/compras/${id}`);
-  const compra = await response.json();
-  return compra;
+  try {
+    // Obtenemos una compra de la base de datos
+    const compra = await prisma.compra.findUnique({
+      where: {
+        id: Number(id),
+      },
+      select: {
+        id: true,
+        fecha: true,
+        total: true,
+        motivo: true,
+        impuesto: true,
+        usuario: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        proveedor: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        estado: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        DetalleCompra: {
+          select: {
+            id: true,
+            cantidad: true,
+            precio: true,
+            producto: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Si no se encuentra la compra, devolvemos un error
+    if (!compra)
+      return {
+        message: 'No se encontró la compra',
+      };
+
+    return compra;
+  } catch (error) {
+    return {
+      message: 'Error al obtener la compra',
+    };
+  }
 };
 
 export default async function informacionCompra({ params: { id } }) {

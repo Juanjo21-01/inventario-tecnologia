@@ -1,15 +1,60 @@
 import Link from 'next/link';
+import { prisma } from '@/libs/prisma';
 
 const getProducto = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/productos/${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    // Obtenemos un producto de la base de datos
+    const producto = await prisma.producto.findUnique({
+      select: {
+        id: true,
+        nombre: true,
+        descripcion: true,
+        codigo_SKU: true,
+        precio: true,
+        stock: true,
+        createdAt: true,
+        estado: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        proveedor: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        categoria: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+      },
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // Si no se encuentra el producto, devolvemos un error
+    if (!producto)
+      return {
+        message: 'No se encontró el producto',
+      };
+
+    return producto;
+  } catch (error) {
+    return {
+      message: 'Error al obtener el producto',
+    };
+  }
 };
 
 export default async function informacionProducto({ params: { id } }) {
   const producto = await getProducto(id);
   return (
-    <div>
+    <>
       {!producto.message ? (
         <>
           <h1 className="text-teal-500 text-4xl font-bold text-center mb-3">
@@ -86,6 +131,6 @@ export default async function informacionProducto({ params: { id } }) {
       >
         Volver a Productos
       </Link>
-    </div>
+    </>
   );
 }

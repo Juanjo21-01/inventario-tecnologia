@@ -5,7 +5,7 @@ const Tabla = ({ thead, tbody, nombresRelaciones }) => {
   return (
     <>
       {tbody.length > 0 ? (
-        <table className="bg-zinc-50 shadow-xl mt-5 flex flex-col ">
+        <table className="bg-zinc-50 shadow-xl my-5 flex flex-col ">
           <TablaEncabezado thead={thead} />
 
           <TablaContenido tbody={tbody} nombresRelaciones={nombresRelaciones} />

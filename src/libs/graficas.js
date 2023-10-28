@@ -159,6 +159,11 @@ export const obtenerStockProductos = async () => {
     select: {
       nombre: true,
       stock: true,
+      estado: {
+        select: {
+          nombre: true,
+        },
+      },
     },
   });
 
@@ -169,15 +174,19 @@ export const obtenerStockProductos = async () => {
   // guardar los datos en el array con un objeto para los productos con el stock mayor a 10 y otro con el stock menor a 10
   stock.forEach((producto) => {
     if (producto.stock <= 5) {
-      datos.peligro.push({
-        nombre: producto.nombre,
-        stock: producto.stock,
-      });
+      if (producto.estado.nombre === 'Activo') {
+        datos.peligro.push({
+          nombre: producto.nombre,
+          stock: producto.stock,
+        });
+      }
     } else if (producto.stock <= 10) {
-      datos.advertencia.push({
-        nombre: producto.nombre,
-        stock: producto.stock,
-      });
+      if (producto.estado.nombre === 'Activo') {
+        datos.advertencia.push({
+          nombre: producto.nombre,
+          stock: producto.stock,
+        });
+      }
     }
   });
 

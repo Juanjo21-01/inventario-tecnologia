@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <section className="flex flex-col items-center justify-center h-full gap-4">
+    <section className="flex flex-col items-center justify-center h-screen gap-4">
       <h1 className="text-5xl font-bold text-center text-rose-700">404</h1>
       <p className="mb-4 text-3xl font-semibold text-rose-600 ">
         Página no encontrada

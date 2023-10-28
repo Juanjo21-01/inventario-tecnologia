@@ -1,10 +1,55 @@
 import Cards from '@/components/Cards/Cards';
 import Link from 'next/link';
+import { prisma } from '@/libs/prisma';
 
 const getEstado = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/estados/${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    // Obtenemos un estado de la base de datos
+    const estado = await prisma.estado.findUnique({
+      select: {
+        nombre: true,
+        descripcion: true,
+        createdAt: true,
+        Producto: {
+          select: {
+            id: true,
+            nombre: true,
+            precio: true,
+            stock: true,
+          },
+        },
+        Compra: {
+          select: {
+            id: true,
+            fecha: true,
+            total: true,
+          },
+        },
+        Venta: {
+          select: {
+            id: true,
+            fecha: true,
+            total: true,
+          },
+        },
+      },
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // Si no se encuentra el estado, devolvemos un error
+    if (!estado)
+      return {
+        message: 'No se encontró el estado',
+      };
+
+    return estado;
+  } catch (error) {
+    return {
+      message: 'Error al obtener el estado',
+    };
+  }
 };
 
 export default async function informacionEstado({ params: { id } }) {
@@ -12,6 +57,22 @@ export default async function informacionEstado({ params: { id } }) {
   const productos = estado.Producto || [];
   const compras = estado.Compra || [];
   const ventas = estado.Venta || [];
+
+  // quitar datos innecesarios
+  productos.forEach((producto) => {
+    producto.precio = `Q.${producto.precio}`;
+    producto.stock = `${producto.stock} unidades`;
+  });
+
+  compras.forEach((compra) => {
+    compra.total = `Q.${compra.total}`;
+    compra.fecha = new Date(compra.fecha).toLocaleDateString();
+  });
+
+  ventas.forEach((venta) => {
+    venta.total = `Q.${venta.total}`;
+    venta.fecha = new Date(venta.fecha).toLocaleDateString();
+  });
 
   return (
     <>
@@ -62,7 +123,7 @@ export default async function informacionEstado({ params: { id } }) {
       )}
       <Link
         href="/estados"
-        className="px-4 py-2 bg-rose-500 rounded-md text-zinc-50 p-5 mx-5"
+        className="px-4 py-2 bg-rose-500 rounded-md text-zinc-50 p-5 m-5"
       >
         Volver a Estados
       </Link>

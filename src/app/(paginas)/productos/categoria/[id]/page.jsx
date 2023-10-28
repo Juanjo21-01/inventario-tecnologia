@@ -1,12 +1,41 @@
 import Cards from '@/components/Cards/Cards';
 import Link from 'next/link';
+import { prisma } from '@/libs/prisma';
 
 const getCategoria = async (id) => {
-  const response = await fetch(
-    `http://localhost:3000/api/productos/categoria/${id}`
-  );
-  const data = await response.json();
-  return data;
+  try {
+    // Obtenemos una categoria de la base de datos
+    const categoria = await prisma.categoriaProductos.findUnique({
+      select: {
+        nombre: true,
+        descripcion: true,
+        createdAt: true,
+        Producto: {
+          select: {
+            id: true,
+            nombre: true,
+            precio: true,
+            stock: true,
+          },
+        },
+      },
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // Si no se encuentra la categoria, devolvemos un error
+    if (!categoria)
+      return {
+        message: 'No se encontró la categoria',
+      };
+
+    return categoria;
+  } catch (error) {
+    return {
+      message: 'Error al obtener la categoria',
+    };
+  }
 };
 
 export default async function informacionCategoria({ params: { id } }) {
@@ -14,7 +43,7 @@ export default async function informacionCategoria({ params: { id } }) {
   const productos = categoria.Producto || [];
 
   return (
-    <div>
+    <>
       {!categoria.message ? (
         <>
           <h1 className="text-teal-500 text-4xl font-bold text-center mb-3">
@@ -60,6 +89,6 @@ export default async function informacionCategoria({ params: { id } }) {
       >
         Volver a Categorias
       </Link>
-    </div>
+    </>
   );
 }

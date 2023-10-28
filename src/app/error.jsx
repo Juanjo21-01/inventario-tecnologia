@@ -5,7 +5,7 @@ export default function Error() {
   const router = useRouter();
 
   return (
-    <section className="flex flex-col items-center justify-center h-full gap-4">
+    <section className="flex flex-col items-center justify-center h-screen gap-4">
       <article className="flex flex-col items-center justify-center h-full">
         <h1 className="text-5xl font-bold text-center text-yellow-700">
           Error

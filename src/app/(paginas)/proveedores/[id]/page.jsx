@@ -1,10 +1,40 @@
 import Cards from '@/components/Cards/Cards';
+import { prisma } from '@/libs/prisma';
 import Link from 'next/link';
 
 const getProveedor = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/proveedores/${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    // Obtenemos un proveedor de la base de datos
+    const proveedor = await prisma.proveedor.findUnique({
+      select: {
+        id: true,
+        nombre: true,
+        nit: true,
+        direccion: true,
+        telefono: true,
+        email: true,
+        createdAt: true,
+        Producto: {
+          select: {
+            id: true,
+            nombre: true,
+            precio: true,
+            stock: true,
+          },
+        },
+      },
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // Si no se encuentra el proveedor, devolvemos un error
+    if (!proveedor) return { message: 'No se encontró el proveedor' };
+
+    return proveedor;
+  } catch (error) {
+    return { message: 'Error al obtener el proveedor' };
+  }
 };
 
 export default async function informacionProveedor({ params: { id } }) {

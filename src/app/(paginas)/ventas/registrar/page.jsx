@@ -1,8 +1,28 @@
 import Formulario from '@/components/Formulario/Formulario';
 import { prisma } from '@/libs/prisma';
 
-const obtenerProductos = async () =>
-  await prisma.producto.findMany({ select: { id: true, nombre: true } });
+const obtenerProductos = async () => {
+  const productos = await prisma.producto.findMany({
+    select: {
+      id: true,
+      nombre: true,
+      estado: {
+        select: {
+          nombre: true,
+        },
+      },
+    },
+  });
+
+  const productosActivos = productos.filter(
+    (producto) => producto.estado.nombre === 'Activo'
+  );
+
+  // quitar estado de los productos
+  productosActivos.forEach((producto) => delete producto.estado);
+
+  return productosActivos;
+};
 
 export default async function registrarVenta() {
   const productos = await obtenerProductos();

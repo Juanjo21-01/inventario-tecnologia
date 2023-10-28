@@ -2,18 +2,72 @@ import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
+import { prisma } from '@/libs/prisma';
 
 const getUsuario = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/usuarios/${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    // Obtenemos un usuario de la base de datos
+    const usuario = await prisma.usuario.findUnique({
+      select: {
+        nombre: true,
+        email: true,
+        createdAt: true,
+        rol: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        Venta: {
+          select: {
+            id: true,
+            fecha: true,
+            total: true,
+          },
+        },
+        Compra: {
+          select: {
+            id: true,
+            fecha: true,
+            total: true,
+          },
+        },
+      },
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // Si no se encuentra el usuario, devolvemos un error
+    if (!usuario)
+      return {
+        message: 'No se encontró el usuario',
+      };
+
+    return usuario;
+  } catch (error) {
+    return {
+      message: 'Error al obtener el usuario',
+    };
+  }
 };
 
 export default async function usuario({ params: { id } }) {
   const usuario = await getUsuario(id);
-  const rol = usuario.rol.nombre;
-  const ventas = usuario.Venta;
-  const compras = usuario.Compra;
+
+  const rol = usuario.rol ? usuario.rol.nombre : '';
+  const ventas = usuario.Venta || [];
+  const compras = usuario.Compra || [];
+
+  ventas.forEach((venta) => {
+    venta.total = `Q.${venta.total}`;
+    venta.fecha = new Date(venta.fecha).toLocaleDateString();
+  });
+
+  compras.forEach((compra) => {
+    compra.total = `Q.${compra.total}`;
+    compra.fecha = new Date(compra.fecha).toLocaleDateString();
+  });
 
   const encabezadoVentas = ventas.length > 0 ? Object.keys(ventas[0]) : [];
   const encabezadoCompras = compras.length > 0 ? Object.keys(compras[0]) : [];
@@ -21,7 +75,7 @@ export default async function usuario({ params: { id } }) {
   const session = await getSession();
 
   return (
-    <div>
+    <>
       {session.id_rol !== 3 ? (
         <>
           {!usuario.message ? (
@@ -63,7 +117,7 @@ export default async function usuario({ params: { id } }) {
           )}
           <Link
             href="/usuarios"
-            className="px-4 py-2 bg-rose-500 rounded-md text-zinc-50 p-5 m-5"
+            className="px-4 py-2 bg-rose-500 rounded-md text-zinc-50 m-5"
           >
             Volver a Usuarios
           </Link>
@@ -71,6 +125,6 @@ export default async function usuario({ params: { id } }) {
       ) : (
         <AccesoDenegado />
       )}
-    </div>
+    </>
   );
 }

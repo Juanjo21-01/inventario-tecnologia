@@ -2,13 +2,41 @@ import Tabla from '@/components/Tabla/Tabla';
 import Link from 'next/link';
 import getSession from '@/libs/session';
 import AccesoDenegado from '@/components/AccesoDenegado';
+import { prisma } from '@/libs/prisma';
 
 const getRol = async (id) => {
-  const response = await fetch(
-    `http://localhost:3000/api/usuarios/roles/${id}`
-  );
-  const data = await response.json();
-  return data;
+  try {
+    // Obtenemos un rol de la base de datos
+    const rol = await prisma.rol.findUnique({
+      select: {
+        nombre: true,
+        descripcion: true,
+        createdAt: true,
+        Usuario: {
+          select: {
+            id: true,
+            nombre: true,
+            email: true,
+          },
+        },
+      },
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // Si no se encuentra el rol, devolvemos un error
+    if (!rol)
+      return {
+        message: 'No se encontró el rol',
+      };
+
+    return rol;
+  } catch (error) {
+    return {
+      message: 'Error al obtener el rol',
+    };
+  }
 };
 
 export default async function rol({ params: { id } }) {

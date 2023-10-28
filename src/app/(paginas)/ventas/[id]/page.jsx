@@ -1,9 +1,59 @@
+import { prisma } from '@/libs/prisma';
 import Link from 'next/link';
 
 const getVenta = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/ventas/${id}`);
-  const venta = await response.json();
-  return venta;
+  try {
+    // Obtenemos una venta de la base de datos
+    const venta = await prisma.venta.findUnique({
+      where: {
+        id: Number(id),
+      },
+      select: {
+        id: true,
+        fecha: true,
+        total: true,
+        motivo: true,
+        usuario: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        estado: {
+          select: {
+            id: true,
+            nombre: true,
+          },
+        },
+        DetalleVenta: {
+          select: {
+            id: true,
+            cantidad: true,
+            precio: true,
+            producto: {
+              select: {
+                id: true,
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Si no se encuentra la venta, devolvemos un error
+    if (!venta)
+      return {
+        message: 'No se encontró la venta',
+      };
+
+    console.log(venta);
+    return venta;
+  } catch (error) {
+    return {
+      message: 'Error al obtener la venta',
+    };
+  }
 };
 
 export default async function informacionCompra({ params: { id } }) {

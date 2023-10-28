@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className={font.className}>
         <Providers>
-          <main className="h-screen">{children}</main>
+          <main>{children}</main>
         </Providers>
       </body>
     </html>
