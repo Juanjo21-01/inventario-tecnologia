@@ -28,6 +28,14 @@ const TablaContenidoFila = ({ item }) => {
       return;
     }
 
+    // no permitir al administrador eliminar su propio usuario pero si eliminar a otros usuarios
+    if (session.user.id_rol === 1 && nombreURL === '/usuarios') {
+      if (session.user.id === item.id) {
+        alert('No puede eliminar su propio usuario');
+        return;
+      }
+    }
+
     if (window.confirm('¿Está seguro de eliminar este contenido?')) {
       await fetch(`/api/${nombreURL}/${item.id}`, { method: 'DELETE' });
     }
@@ -72,7 +80,7 @@ const TablaContenidoFila = ({ item }) => {
                         Eliminar
                       </button>
                     )}
-                    
+
                     <button
                       onClick={editarContenido}
                       className="p-1 text-zinc-50 transition duration-500 ease-in-out bg-teal-400 rounded-xl hover:bg-teal-500 me-2"

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <section className="flex items-center justify-center h-full gap-10 bg-gray-950">
+    <section className="flex items-center justify-center h-screen gap-10 bg-gray-950">
       <article className="flex flex-col items-center justify-center h-full p-3">
         <Image
           src="/titulo.svg"
